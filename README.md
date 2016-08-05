@@ -8,18 +8,23 @@ Learning D3.js by examples
 ### Multi-line Chart
 
 **Challenge**    
-- data: 3 cities' daily temperatures over a number of periods    
-- draw 3 lines with diff colors on the same chart    
-- label each line with a city name      
+- Data: 3 cities' daily temperatures over a number of periods    
+- Draw 3 lines with diff colors on the same chart    
+- Label each line with a city name      
 
 [Code Overview](http://bl.ocks.org/EmbraceLife/aa9155f9d0baaa3429e087b34980c929)    
 [Full Demo](http://blockbuilder.org/EmbraceLife/aa9155f9d0baaa3429e087b34980c929)  
 
 
-**Step 1**   
+**Step 0**   
 Set up a starting template    
-- Basic components     
-
 
 [Video]()    
-[Practice Demo]()
+[Practice Demo](http://blockbuilder.org/EmbraceLife/039276f3ae83f19a5e12a4e2d4c54af8)
+
+
+**Step 1**   
+Set up a starting template    
+
+[Video]()    
+[Practice Demo](http://blockbuilder.org/EmbraceLife/d3bb1c7c3275ae84a5b8a12f28b1f2a5)
