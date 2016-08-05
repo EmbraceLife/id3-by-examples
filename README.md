@@ -33,9 +33,9 @@ Set up a starting template
 
 **Step 2**   
 - func => format date for data file       
-- func => map date to px on x-axis   
-- func => map temperature to px on y-axis     
-- func => map city names to color    
+- func => map date to px on x-axis, update px range        
+- func => map temperature to px on y-axis, update px range       
+- func => map city names to color, give 20 default colors     
 - func => tranform data points into points of lines    
 
 [Video](https://youtu.be/uiwh0EJPKr8)    
@@ -50,5 +50,18 @@ Set up a starting template
 - reorganise dataset by columns
 
 
-[Video]()    
+[Video1](https://youtu.be/NgjhKnoWGZg)    
+[Video2]()
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3f7287859b3c582cb2a451a42a6faf58)
+
+
+**Step 4**   
+- update date range for (func => map date to px on x-axis)
+- update temperature range for (func => map temperature to px on y-axis)
+- update city names for (func => map city names to color)
+- create and display x-axis
+- create and display y-axis with a label
+
+
+[Video]()    
+[Practice Demo](http://blockbuilder.org/EmbraceLife/dd839308a263c9423bd8e0957bdb332c)
