@@ -32,11 +32,23 @@ Set up a starting template
 
 
 **Step 2**   
-- format date for data file       
-- func => map date to px     
-- func => map temperature to px     
+- func => format date for data file       
+- func => map date to px on x-axis   
+- func => map temperature to px on y-axis     
 - func => map city names to color    
 - func => tranform data points into points of lines    
 
-[Video]()    
+[Video](https://youtu.be/uiwh0EJPKr8)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c675ec2a11d547ac62ab57c04f7a4e02)  
+
+
+**Step 3**   
+- func => tranform each row of data from data file     
+ + apply date format func
+ + convert string to number   
+- load data file and preprocess data
+- reorganise dataset by columns
+
+
+[Video]()    
+[Practice Demo](http://blockbuilder.org/EmbraceLife/3f7287859b3c582cb2a451a42a6faf58)
