@@ -51,7 +51,7 @@ Set up a starting template
 
 
 [Video1](https://youtu.be/NgjhKnoWGZg)    
-[Video2]()
+[Video2](https://youtu.be/AnSUbBXXvnM)
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3f7287859b3c582cb2a451a42a6faf58)
 
 
@@ -65,3 +65,12 @@ Set up a starting template
 
 [Video]()    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/dd839308a263c9423bd8e0957bdb332c)
+
+
+
+**Step 5**
+- update and create g placeholders by binding with data      
+- for each placeholder, create path and draw line on it    
+- create a label at the end of each line     
+
+[Practice Demo](http://blockbuilder.org/EmbraceLife/9a73445e8527495bc5cf23b0447cb622)
