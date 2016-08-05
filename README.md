@@ -19,7 +19,7 @@ Learning D3.js by examples
 **Step 0**   
 Set up a starting template    
 
-[Video]()    
+[Video](https://youtu.be/CZZHkxJIja0)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/039276f3ae83f19a5e12a4e2d4c54af8)
 
 
@@ -27,5 +27,16 @@ Set up a starting template
 - Create a canvas     
 - Locate a tarting point for drawing   
 
-[Video]()    
+[Video](https://youtu.be/MroiTmauDeg)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/d3bb1c7c3275ae84a5b8a12f28b1f2a5)
+
+
+**Step 2**   
+- format date for data file       
+- func => map date to px     
+- func => map temperature to px     
+- func => map city names to color    
+- func => tranform data points into points of lines    
+
+[Video]()    
+[Practice Demo](http://blockbuilder.org/EmbraceLife/c675ec2a11d547ac62ab57c04f7a4e02)  
