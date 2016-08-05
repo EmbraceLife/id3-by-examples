@@ -24,7 +24,8 @@ Set up a starting template
 
 
 **Step 1**   
-Set up a starting template    
+- Create a canvas     
+- Locate a tarting point for drawing   
 
 [Video]()    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/d3bb1c7c3275ae84a5b8a12f28b1f2a5)
