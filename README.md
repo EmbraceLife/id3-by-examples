@@ -1,5 +1,8 @@
 # id3-by-examples
-Learning D3.js by examples
+**Lessons learnt**    
+1. the better I understand previous work, the more confident I am to tackle new problems
+2. If there is no need to read or watch my work again and again, then I should not make them in the first place
+
 
 
 ## Line Charts
@@ -77,18 +80,41 @@ Set up a starting template
 [Practice Demo](http://blockbuilder.org/EmbraceLife/9a73445e8527495bc5cf23b0447cb622)
 
 
+##### Data format for d3
+* Column names can be strings
+* Y,M,D has nothing in between
+* Date has to be numeric
+
+[Video]()    
+[Demo](http://blockbuilder.org/EmbraceLife/9a73445e8527495bc5cf23b0447cb622)
+
 ----
-### Multi-line Chart Exercies
+### Multi-line Chart
 
 #### 1-stock-return => line chart
+* no missing data
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
 
-#### 3-stock-return data => line chart
+#### 3-stock-return data => multi-line chart
+* no missing data
+
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/04c7747f4f664d3cff48e0c730b417ae)
 
 
-##### data by column vs path vs line
 
-##### missing data
+#### 3-stock-return data => multi-line chart
+* with missing data handled     
+
+[Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
+
+
+#### 3-stock-return data => Multi-line chart
+* missing data bridged by previous data
+
+----
+
+## BarChart
+
+###
