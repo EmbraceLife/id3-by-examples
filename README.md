@@ -144,16 +144,21 @@ For simplicity:
 ### CandleBar chart
 
 #### a basic candlebar chart
-
+- How to create a candlebar chart
 
 [Demo](http://blockbuilder.org/EmbraceLife/77a920a331c0ed20adfe2bba6f4b28aa)
 
 #### Multi-axis and line on a candlebar chart
-- How to create a candlebar chart
 - how to create multi-y-axis and display
+- async between candlebar and line
+
+[Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
 
 ##### Notes:     
 * rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
 * path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
 
-[Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
+- 2-y-axis
+- legends on both sides
+
+[Demo](http://blockbuilder.org/EmbraceLife/acfe4bad38dc546e6917b914e5933016)
