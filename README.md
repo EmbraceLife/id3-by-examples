@@ -54,7 +54,7 @@ Set up a starting template
 
 
 [Video1](https://youtu.be/NgjhKnoWGZg)    
-[Video2](https://youtu.be/AnSUbBXXvnM)
+[Video2](https://youtu.be/AnSUbBXXvnM)   
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3f7287859b3c582cb2a451a42a6faf58)
 
 
@@ -81,12 +81,24 @@ Set up a starting template
 
 
 ##### Data format for d3
+For simplicity:
 * Column names can be strings
 * Y,M,D has nothing in between
-* Date has to be numeric
+* Date can be in quote too
 
-[Video]()    
+[Video](https://www.youtube.com/watch?v=pmQykZXiRcI&feature=youtu.be)    
 [Demo](http://blockbuilder.org/EmbraceLife/9a73445e8527495bc5cf23b0447cb622)
+
+
+##### d3 workflow  
+* svg, g
+* data extraction by row and by column
+* scale-map: x, y, color
+* draw: x-y-axis, lines, labels
+
+[Video](https://youtu.be/8bJ85ig-C1k)
+
+
 
 ----
 ### Multi-line Chart
@@ -112,6 +124,19 @@ Set up a starting template
 
 #### 3-stock-return data => Multi-line chart
 * missing data bridged by previous data
+* switch the demo below data file to "data_filled.csv"
+
+[Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
+
+##### Notes
+* How to parse dateformat from data.file
+* How to handle NaN inside data-row-object
+* How to handle null data on d3.line().defined()
+
+[Video]()
+
+
+
 
 ----
 
