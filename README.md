@@ -97,11 +97,11 @@ For simplicity:
 * draw: x-y-axis, lines, labels
 
 [Video](https://youtu.be/8bJ85ig-C1k)
-
+[my-workflow-template](http://blockbuilder.org/EmbraceLife/d80d44aaef08328aee2fd80819fd62ac)
 
 
 ----
-### Multi-line Chart
+### Multi-line Chart Practices
 
 #### 1-stock-return => line chart
 * no missing data
@@ -126,15 +126,14 @@ For simplicity:
 * missing data bridged by previous data
 * switch the demo below data file to "data_filled.csv"
 
-[Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
 
 ##### Notes
 * How to parse dateformat from data.file
 * How to handle NaN inside data-row-object
 * How to handle null data on d3.line().defined()
 
-[Video]()
-
+[Video](https://youtu.be/qJFme9KxtzQ)
+[Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
 
 
 
@@ -142,4 +141,19 @@ For simplicity:
 
 ## BarChart
 
-###
+### CandleBar chart
+
+#### a basic candlebar chart
+
+
+[Demo](http://blockbuilder.org/EmbraceLife/77a920a331c0ed20adfe2bba6f4b28aa)
+
+#### Multi-axis and line on a candlebar chart
+- How to create a candlebar chart
+- how to create multi-y-axis and display
+
+##### Notes:     
+* rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
+* path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
+
+[Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
