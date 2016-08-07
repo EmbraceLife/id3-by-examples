@@ -109,23 +109,36 @@ For simplicity:
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
 
 #### 3-stock-return data => multi-line chart
-* no missing data
-
+* there is no values as NA, only inner data among three stocks return rates
+* there are missing dates
+* path-line will take on those missing dates and smooth out the missing values on graph    
+[video](https://youtu.be/ihTUo3cmozY)     
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/04c7747f4f664d3cff48e0c730b417ae)
 
 
 
 #### 3-stock-return data => multi-line chart
-* with missing data handled     
-
+* 3 df merged fully, no date is missing, but many NA created for other 2 stocks
+* path-line now will break and showing the empty spaces    
+[video](https://youtu.be/Kqv7Ix1bHBs)     
+- NA of data.file read as NaN through d3.js     
+[video](https://youtu.be/Xf3oZvBW8hQ)      
+- Convert NaN to null, easier to handle     
+[video](https://youtu.be/DSImln7Hekk)     
+- null is easier to handle       
+[video](https://youtu.be/et27mSllXEM)     
+- path-line func use .defined() to reject null in the first place without applying .x(), .y()
+[video](https://youtu.be/F5fmCJJS7KM)      
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
 
 
 #### 3-stock-return data => Multi-line chart
-* missing data bridged by previous data
-* switch the demo below data file to "data_filled.csv"
-
+* inner-merged data => path-line smooth on date and values
+* union-merged data => path-line leave all the NA as spaces
+* union-merged with na.locf data => path-line plot straight lines for spaces above
+* switch data file from "data.csv" to "data_filled.csv"     
+[video](https://youtu.be/8-GIzELqOak )     
 
 ##### Notes
 * How to parse dateformat from data.file
@@ -144,21 +157,50 @@ For simplicity:
 ### CandleBar chart
 
 #### a basic candlebar chart
-- How to create a candlebar chart
+- x-scale-map: use scaleTime not scaleBand  
+[Video](https://youtu.be/0BYPUT7KPZQ)   
+- g->bar(transform-translate x position)->rect & line    
+- rect fill color => d.Close vs d.Open    
+[video](https://youtu.be/Z4zQ40tq1-4)    
+- row-data => create bars and line-stick
+[video](https://youtu.be/RWncr_E-Ag0)
+
 
 [Demo](http://blockbuilder.org/EmbraceLife/77a920a331c0ed20adfe2bba6f4b28aa)
 
-#### Multi-axis and line on a candlebar chart
-- how to create multi-y-axis and display
-- async between candlebar and line
+#### Multi-axis, return line, a candlebar chart
+- price & ror => 2 y-axis, display only ror    
+[video](https://youtu.be/sbpwhaFXN0A)
+- async between candlebar and return line    
+[video](https://youtu.be/KRPt-i96jbs)
 
 [Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
 
-##### Notes:     
+#### Solution to async between candlebar and return-line
 * rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
 * path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
+* provide data_filled.csv (missing data is filled with previous data and date)    
+[video](https://youtu.be/VVA11yeTA3Y)      
 
-- 2-y-axis
-- legends on both sides
+- 2-y-axis created with .axisRight()    
+[video](https://youtu.be/MVYSLBoYiuI)     
+- legends on both sides => rects and texts     
+[video](https://youtu.be/RTO5B8Xv958)     
+- fade candle-bar chart => opacity attr for rect and line
 
 [Demo](http://blockbuilder.org/EmbraceLife/acfe4bad38dc546e6917b914e5933016)
+
+----
+
+### Brush and Zoom     
+
+#### mbostock brush and zoom example
+- .area {clip-path: url(#clip)} ????
+- .zoom {cursor: move; pointer-events: all;} ????
+- set height and width for 2 view panels  
+[video](https://youtu.be/dlxRFf5tmiI )     
+[Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
+
+### Hover to check
+
+[Demo](http://blockbuilder.org/EmbraceLife/9dc7507eab115461527848925270e81a)
