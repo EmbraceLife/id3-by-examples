@@ -181,12 +181,11 @@ For simplicity:
 * path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
 * provide data_filled.csv (missing data is filled with previous data and date)    
 [video](https://youtu.be/VVA11yeTA3Y)      
-
 - 2-y-axis created with .axisRight()    
 [video](https://youtu.be/MVYSLBoYiuI)     
 - legends on both sides => rects and texts     
 [video](https://youtu.be/RTO5B8Xv958)     
-- fade candle-bar chart => opacity attr for rect and line
+- fade candle-bar chart => opacity attr for rect and line   
 
 [Demo](http://blockbuilder.org/EmbraceLife/acfe4bad38dc546e6917b914e5933016)
 
@@ -199,7 +198,51 @@ For simplicity:
 - .zoom {cursor: move; pointer-events: all;} ????
 - set height and width for 2 view panels  
 [video](https://youtu.be/dlxRFf5tmiI )     
+- Nov 2016 => .timeParse("%d %Y")    
+- 2 panels => 2 heights + 2 .range([height, 0]) => 2 g with own transform-translate origin     
+[video](https://youtu.be/pZHTpAHqJ48)
+- create a brush func => set size => where action begin     
+[video](https://www.youtube.com/watch?v=EyW7uND_t44)    
+- create a zoom func => set scale range: 1 to infinite => set scale-screen size => set viewport size => where action begin     
+[video](https://youtu.be/HV_K5o1tMY4)     
+- make a area generator => set curve style => set x0 value by function, x1 as null => set y0 at bottom of viewport => set y1 as area topEdge     
+[video](https://youtu.be/SPTesThh0eE)
+- Create A Rect here: svg => defs:render,reuse elements => clip-path: not display portion of elements => a visual element like rect     
+[video](https://youtu.be/XfVMkZYHkeA)    
+- draw area with area func defined: g placeholder => path => datum(data) => attr("d", area); datum vs data => enter, exit or not     
+[video](https://youtu.be/HoZYskbULYM)     
+- path-datum-attr-d-area vs g-call(xAxis)    
+[video](https://youtu.be/Qdt4NT0od8g)     
+- draw brush: call => brush.move ????    
+[video](https://youtu.be/kxolPUl4IEA)
+- Brushed-event-sourceEvent: why ignore brush-by-zoom???    
+[video](https://youtu.be/PJ7Y7PfTL6g)
+- Brushed-update-x.domain: change brush area => record the change of px range of brush     
+[video](https://youtu.be/XY1HCaTTyvs)    
+- Brushed-update-x.domain: convert px range to date range to update x.domain()    
+[video](https://youtu.be/GV61bQtwfHQ)    
+- Brushed-control-tranform-k,x,y for zoom view box    
+[video](https://youtu.be/-KJh4ZG5tl8)
+- Brushed: zoom rect move left & clip-path's power    
+[video](https://youtu.be/KBPhIy7fDz8)
+- Zoomed: update-x.domain-px-date    
+[video](https://youtu.be/yUXsqmwU42s)
+- Zoomed: update area and xAxis, and update brushed area range     
+[video](https://youtu.be/yuFs9Z50QJQ)    
+
+Brush and Zoom workflow:
+1. create svg canvas, svg-clip-path, margin-width-height
+* create funcs: dateformat func, 2x-scale funcs, 2y-scale funcs, 2x-axis func, y-axis func, 2area-func, brush func, zoom func
+* load data: load data func, type func
+* update and draw: update x-domain, y-domain; draw zoom area, zoom x-axis, zoom y-axis; draw brush area, brush-x-axis; draw zoom box, brush box
+* zoomed and brushed funcs for control zoom box and brush box behaviour     
+[video](uploading)
+
 [Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
+
+##### brush-zoom-candle-return
+
+[demo](http://blockbuilder.org/EmbraceLife/4fab13cce2e8a5d72f61a5365d2a06a5)
 
 ### Hover to check
 
