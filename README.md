@@ -194,27 +194,78 @@ For simplicity:
 ### Brush and Zoom     
 
 #### mbostock brush and zoom example
+
+Set styles: 
 - .area {clip-path: url(#clip)} ????
 - .zoom {cursor: move; pointer-events: all;} ????
+
+Define variables:
 - set height and width for 2 view panels  
-[video](https://youtu.be/dlxRFf5tmiI )     
+[video](https://youtu.be/dlxRFf5tmiI )  
+
+Create a date-format function:    
 - Nov 2016 => .timeParse("%d %Y")    
 - 2 panels => 2 heights + 2 .range([height, 0]) => 2 g with own transform-translate origin     
 [video](https://youtu.be/pZHTpAHqJ48)
-- create a brush func => set size => where action begin     
-[video](https://www.youtube.com/watch?v=EyW7uND_t44)    
-- create a zoom func => set scale range: 1 to infinite => set scale-screen size => set viewport size => where action begin     
-[video](https://youtu.be/HV_K5o1tMY4)     
+
+create a brush func
+- make a brush generator => set size => where action begin     
+[video](https://www.youtube.com/watch?v=EyW7uND_t44)   
+
+create a zoom func
+- make a zoom generator => set scale range: 1 to infinite => set scale-screen size => set viewport size => where action begin     
+[video](https://youtu.be/HV_K5o1tMY4)   
+
+Create a area function:   
 - make a area generator => set curve style => set x0 value by function, x1 as null => set y0 at bottom of viewport => set y1 as area topEdge     
 [video](https://youtu.be/SPTesThh0eE)
-- Create A Rect here: svg => defs:render,reuse elements => clip-path: not display portion of elements => a visual element like rect     
-[video](https://youtu.be/XfVMkZYHkeA)    
-- draw area with area func defined: g placeholder => path => datum(data) => attr("d", area); datum vs data => enter, exit or not     
+
+Create A clip-path Rect here:
+- svg => defs:render,reuse elements => clip-path: not display portion of elements => a visual element like rect     
+[video](https://youtu.be/XfVMkZYHkeA)  
+
+
+draw area with area func defined:
+- g placeholder => path => datum(data) => attr("d", area);
+- datum vs data => enter, exit or not     
 [video](https://youtu.be/HoZYskbULYM)     
-- path-datum-attr-d-area vs g-call(xAxis)    
+
+Draw with path or with g:
+- path-datum-attr-d-area
+- g-call(xAxis)    
 [video](https://youtu.be/Qdt4NT0od8g)     
-- draw brush: call => brush.move ????    
+
+
+draw brush: call => brush.move ????  
+```javascript
+context.append("g")
+    .attr("class", "brush")
+    .call(brush)
+    // how far can brush move?
+    .call(brush.move, x.range());
+```  
 [video](https://youtu.be/kxolPUl4IEA)
+
+Brushed Function:
+```javascript
+function brushed() {
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+
+// s is brush range px selection  
+  var s = d3.event.selection || x2.range();
+
+// convert s from px to date
+  x.domain(s.map(x2.invert, x2));  
+
+  focus.select(".area").attr("d", area);
+  focus.select(".axis--x").call(xAxis);
+
+//   control zoom viewbox transformation k, x, y
+  svg.select(".zoom")
+    	.call(zoom.transform, d3.zoomIdentity
+      .scale(width / (s[1] - s[0]))
+      .translate(-s[0], 0));}
+```
 - Brushed-event-sourceEvent: why ignore brush-by-zoom???    
 [video](https://youtu.be/PJ7Y7PfTL6g)
 - Brushed-update-x.domain: change brush area => record the change of px range of brush     
@@ -225,6 +276,21 @@ For simplicity:
 [video](https://youtu.be/-KJh4ZG5tl8)
 - Brushed: zoom rect move left & clip-path's power    
 [video](https://youtu.be/KBPhIy7fDz8)
+
+Zoomed Function:
+```javascript
+function zoomed() {
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return;
+  // t capture changing k,x,y
+  var t = d3.event.transform;
+  x.domain(t.rescaleX(x2).domain());
+
+  focus.select(".area").attr("d", area);
+  focus.select(".axis--x").call(xAxis);
+  // set brush movement [px, px]
+  context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+}
+```
 - Zoomed: update-x.domain-px-date    
 [video](https://youtu.be/yUXsqmwU42s)
 - Zoomed: update area and xAxis, and update brushed area range     
@@ -236,7 +302,7 @@ Brush and Zoom workflow:
 * load data: load data func, type func
 * update and draw: update x-domain, y-domain; draw zoom area, zoom x-axis, zoom y-axis; draw brush area, brush-x-axis; draw zoom box, brush box
 * zoomed and brushed funcs for control zoom box and brush box behaviour     
-[video](uploading)
+[video](https://youtu.be/K0iG0Vk516I)
 
 [Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
 
