@@ -4,8 +4,15 @@
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place
 3. notes and videos as specific and short as possible
 
+
+## TOC
 [Line Charts](#line-charts)        
+[How to create a TOC in Markdown](https://youtu.be/S_jGcqajV9o)
 [Brush and Zoom](#brush-and-zoom)
+
+
+
+
 
 ## Line Charts
 
@@ -191,6 +198,7 @@ For simplicity:
 [Video](https://youtu.be/8bJ85ig-C1k)    
 [my-workflow-template](http://blockbuilder.org/EmbraceLife/d80d44aaef08328aee2fd80819fd62ac)
 
+[Back to TOC](#toc)
 
 ----
 ### Multi-line Chart Practices
@@ -1125,7 +1133,7 @@ leftAxis
 
 [Demo](http://blockbuilder.org/EmbraceLife/acfe4bad38dc546e6917b914e5933016)
 
-
+[Back to TOC](#toc)
 ----
 
 ### Brush and Zoom     
@@ -1475,7 +1483,7 @@ svg.append("rect")
         .extent([[0, 0], [width, height]])
         .on("zoom", zoomed);    
 ```
-[video](uploading)
+[video](https://youtu.be/FHcqroGTJp4)
 
 
 ##### Brushed Function:
@@ -1611,7 +1619,7 @@ How to Update to version 4
 
 [Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
 [Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)
-
+[Back to TOC](#toc)  
 
 ### Project
 #### Questions
