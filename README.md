@@ -46,23 +46,53 @@ g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.
 
 
 **Step 2 -> Create funcs to map data points to px**   
-
-- `d3.scaleTime().range([0, width])` => map date to px on x-axis => update px range     
-- `d3.scaleLinear().range([height, 0])` => map temperature to px on y-axis, update px range    
-- `d3.scaleOrdinal(d3.schemeCategory10)` => map city names to color, give 20 default colors         
-- `d3.line().curve(d3.curveBasis).x(function(d) { return x(d.date); }).y(function(d) { return y(d.temperature); })` => tranform data points into (x, y) px position for drawing lines    
+map date to px on x-axis => update px range     
+```javascript
+d3.scaleTime().range([0, width])
+```
+map temperature to px on y-axis => update px range    
+```javascript
+d3.scaleLinear().range([height, 0])
+```
+map city names to color, give 20 default colors         
+```javascript
+d3.scaleOrdinal(d3.schemeCategory10)
+```
+transform data points into (x, y) px position for drawing lines    
+```javascript
+d3.line().curve(d3.curveBasis).x(function(d) { return x(d.date); }).y(function(d) { return y(d.temperature); })
+```
 
 [Video](https://youtu.be/uiwh0EJPKr8)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c675ec2a11d547ac62ab57c04f7a4e02)  
 
 
 **Step 3 -> Load data and Process each row of data**   
-- `function type(d, _, columns) {}` => row func to make use of column names
-- `d3.timeParse("%Y%m%d")` => Format date for data file        
-- `for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
-  return d;` => access each column's value of each row, except Date/first column
-- `d3.tsv("data.tsv", type, function(error, data) {}` => load data file and preprocess data
-- `var cities = data.columns.slice(1).map(function(id) {return {id: id, values: data.map(function(d) {return {date: d.date, temperature: d[id]};})` => reorganise dataset by columns
+row func to make use of column names
+```javascript
+function type(d, _, columns) {}
+```
+Format date for data file        
+```javascript
+var parseTime = d3.timeParse("%Y%m%d");
+  d.date = parseTime(d.date);
+```
+access each column's value of each row, except Date/first column    
+```javascript
+for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+```
+load data file and preprocess data for use    
+```javascript
+d3.tsv("data.tsv", type, function(error, data) {}
+```
+Reorganise dataset by columns    
+```javascript
+var cities = data.columns.slice(1).map(function(id) {
+    return {id: id,
+            values: data.map(function(d) {
+                return {date: d.date,
+                        temperature: d[id]};})
+```
 
 
 [Video1](https://youtu.be/NgjhKnoWGZg)    
@@ -71,14 +101,39 @@ g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.
 
 
 **Step 4 -> update domain-range for scale-map functions above**   
-`x.domain(d3.extent(data, function(d) { return d.date; }));` => update date range for (func => map date to px on x-axis)    
-`y.domain([
+=> update date range for (func => map date to px on x-axis)    
+```javascript
+x.domain(d3.extent(data, function(d) { return d.date; }));
+```
+=> update temperature range for mapping temperature to px on y-axis)     
+```javascript
+y.domain([
     d3.min(cities, function(c) { return d3.min(c.values, function(d) { return d.temperature; }); }),
     d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.temperature; }); })
-  ]);` => update temperature range for mapping temperature to px on y-axis)    
-`z.domain(cities.map(function(c) { return c.id; }))` => update city names for (func => map city names to color)
-- create and display x-axis
-- create and display y-axis with a label
+]);```
+=> update city names for (func => map city names to color)    
+```javascript
+z.domain(cities.map(function(c) { return c.id; }))
+```
+=> create and display x-axis    
+```javascript
+g.append("g")
+    .attr("class", "axis axis--x")
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x));
+```
+=> create and display y-axis with a label    
+```javascript
+g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+      .attr("transform", "rotate(-90)")
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+      .attr("fill", "#000")
+      .text("Temperature, ºF");
+```
 
 
 [Video](https://youtu.be/7tz1dTPp7nc)    
@@ -86,10 +141,31 @@ g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.
 
 
 
-**Step 5**
-- update and create g placeholders by binding with data      
-- for each placeholder, create path and draw line on it    
-- create a label at the end of each line     
+**Step 5**    
+=> update and create g placeholders by binding with data    
+```javascript
+var city = g.selectAll(".city")
+  .data(cities)
+  .enter().append("g")
+    .attr("class", "city");
+```    
+=> for each placeholder, create path and draw line on it    
+```javascript
+city.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d) { return z(d.id); });
+```
+=> create a label at the end of each line     
+```javascript
+city.append("text")
+      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.temperature) + ")"; })
+      .attr("x", 3)
+      .attr("dy", "0.35em")
+      .style("font", "10px sans-serif")
+      .text(function(d) { return d.id; });
+```
 
 [Video](https://youtu.be/j57aoJSsdHQ)
 [Practice Demo](http://blockbuilder.org/EmbraceLife/9a73445e8527495bc5cf23b0447cb622)
@@ -111,22 +187,133 @@ For simplicity:
 * scale-map: x, y, color
 * draw: x-y-axis, lines, labels
 
-[Video](https://youtu.be/8bJ85ig-C1k)
+[Video](https://youtu.be/8bJ85ig-C1k)    
 [my-workflow-template](http://blockbuilder.org/EmbraceLife/d80d44aaef08328aee2fd80819fd62ac)
 
 
 ----
 ### Multi-line Chart Practices
 
-#### 1-stock-return => line chart
+#### 1-stock-return line chart
 * no missing data
+```html   
+
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    z = d3.scaleOrdinal(d3.schemeCategory10);
+
+var line = d3.line()
+    .curve(d3.curveBasis)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.return); });
+
+
+
+function type(d, _, columns) {
+  d.Date = parseTime(+d.Date);
+//   i = 1 to skip date, c = columns[i] for +d[c]
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;
+}
+
+
+d3.csv("data.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+  var returns = data.columns.slice(data.columns.length-1).map(function(id) {
+    return {
+      id: "hkws",
+      values: data.map(function(d) {
+        return {date: d.Date, return: d.return};
+      })
+    };
+  });
+
+  x.domain(d3.extent(returns[0].values, function(d) { return d.date; }));
+
+  y.domain(
+    d3.extent(returns[0].values, function(d) { return d.return;})
+  );
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+	  .attr("x",20)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  	  .attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("return, 1-base");
+
+      var rr = g.selectAll(".return")
+        .data(returns) // must use .data(return)
+        .enter().append("g")
+          .attr("class", ".return");
+
+      rr.append("path")
+          .attr("class", "line")
+          .attr("d", function(d) { return line(d.values); })
+          .style("stroke", "steelblue" );
+
+      rr.append("text")
+          .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+          .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.return) + ")"; })
+          .attr("x", 3)
+          .attr("dy", "0.35em")
+          .style("font", "10px sans-serif")
+          .text(function(d) { return d.id; });
+
+});
+</script>
+
+```
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
+
+
 
 #### 3-stock-return data => multi-line chart
 * there is no values as NA, only inner data among three stocks return rates
 * there are missing dates
 * path-line will take on those missing dates and smooth out the missing values on graph    
+
+
 [video](https://youtu.be/ihTUo3cmozY)     
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/04c7747f4f664d3cff48e0c730b417ae)
@@ -338,8 +525,20 @@ Brush and Zoom workflow:
 [Demo](http://blockbuilder.org/EmbraceLife/9dc7507eab115461527848925270e81a)   
 
 ### stock example by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
+How to Update to version 4
+- update v3 to v4
+```html
+<script src='http://d3js.org/d3.v4.min.js' charset="utf-8"></script>
+```
+- Check error on console view     
+- Click on the error link to see the problematic code    
+[video](https://youtu.be/GhlrzcDc014)  
 
-[Demo](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
+
+
+
+[Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
+[Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)
 
 
 ### Project
