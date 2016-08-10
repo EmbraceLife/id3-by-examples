@@ -2,6 +2,7 @@
 **Lessons learnt**    
 1. the better I understand previous work, the more confident I am to tackle new problems
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place
+3. notes and videos as specific and short as possible
 
 
 
@@ -26,31 +27,33 @@ Set up a starting template
 [Practice Demo](http://blockbuilder.org/EmbraceLife/039276f3ae83f19a5e12a4e2d4c54af8)
 
 
-**Step 1**   
-- Create a canvas     
-- Locate a tarting point for drawing   
+**Step 1 -> Create svg canvas and g placeholder**   
+- `<svg width="960" height="500"></svg>` => create a svg canvas     
+- `svg = d3.select("svg")`: select and assign the canvas       
+- `g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")` => g placeholder to Locate a tarting point for inner canvas    
 
 [Video](https://youtu.be/MroiTmauDeg)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/d3bb1c7c3275ae84a5b8a12f28b1f2a5)
 
 
-**Step 2**   
-- func => format date for data file       
-- func => map date to px on x-axis, update px range        
-- func => map temperature to px on y-axis, update px range       
-- func => map city names to color, give 20 default colors     
-- func => tranform data points into points of lines    
+**Step 2 -> Create funcs to map data points to px**   
+
+- `d3.scaleTime().range([0, width])` => map date to px on x-axis => update px range     
+- `d3.scaleLinear().range([height, 0])` => map temperature to px on y-axis, update px range    
+- `d3.scaleOrdinal(d3.schemeCategory10)` => map city names to color, give 20 default colors         
+- `d3.line().curve(d3.curveBasis).x(function(d) { return x(d.date); }).y(function(d) { return y(d.temperature); })` => tranform data points into (x, y) px position for drawing lines    
 
 [Video](https://youtu.be/uiwh0EJPKr8)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c675ec2a11d547ac62ab57c04f7a4e02)  
 
 
-**Step 3**   
-- func => tranform each row of data from data file     
- + apply date format func
- + convert string to number   
-- load data file and preprocess data
-- reorganise dataset by columns
+**Step 3 -> Load data and Process each row of data**   
+- `function type(d, _, columns) {}` => row func to make use of column names
+- `d3.timeParse("%Y%m%d")` => Format date for data file        
+- `for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;` => access each column's value of each row, except Date/first column
+- `d3.tsv("data.tsv", type, function(error, data) {}` => load data file and preprocess data
+- `var cities = data.columns.slice(1).map(function(id) {return {id: id, values: data.map(function(d) {return {date: d.date, temperature: d[id]};})` => reorganise dataset by columns
 
 
 [Video1](https://youtu.be/NgjhKnoWGZg)    
@@ -58,10 +61,13 @@ Set up a starting template
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3f7287859b3c582cb2a451a42a6faf58)
 
 
-**Step 4**   
-- update date range for (func => map date to px on x-axis)
-- update temperature range for (func => map temperature to px on y-axis)
-- update city names for (func => map city names to color)
+**Step 4 -> update domain-range for scale-map functions above**   
+`x.domain(d3.extent(data, function(d) { return d.date; }));` => update date range for (func => map date to px on x-axis)    
+`y.domain([
+    d3.min(cities, function(c) { return d3.min(c.values, function(d) { return d.temperature; }); }),
+    d3.max(cities, function(c) { return d3.max(c.values, function(d) { return d.temperature; }); })
+  ]);` => update temperature range for mapping temperature to px on y-axis)    
+`z.domain(cities.map(function(c) { return c.id; }))` => update city names for (func => map city names to color)
 - create and display x-axis
 - create and display y-axis with a label
 
@@ -195,7 +201,7 @@ For simplicity:
 
 #### mbostock brush and zoom example
 
-Set styles: 
+Set styles:
 - .area {clip-path: url(#clip)} ????
 - .zoom {cursor: move; pointer-events: all;} ????
 
@@ -245,6 +251,14 @@ context.append("g")
     .call(brush.move, x.range());
 ```  
 [video](https://youtu.be/kxolPUl4IEA)
+
+
+understand brushed and zoomed functions:
+- but not sure following code adds anything meaningful
+```javascript
+.call(brush.move, x.range());
+```
+[video](https://youtu.be/SFYkLwZWKPc)
 
 Brushed Function:
 ```javascript
@@ -305,11 +319,27 @@ Brush and Zoom workflow:
 [video](https://youtu.be/K0iG0Vk516I)
 
 [Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
-
+[Cleaner Demo](http://bl.ocks.org/EmbraceLife/21cc0f29827dacf30a658ef7763c19e7)
 ##### brush-zoom-candle-return
 
-[demo](http://blockbuilder.org/EmbraceLife/4fab13cce2e8a5d72f61a5365d2a06a5)
+[demo](http://bl.ocks.org/EmbraceLife/d66394e7abd5ee805eeb82284db3106f)
 
 ### Hover to check
 
-[Demo](http://blockbuilder.org/EmbraceLife/9dc7507eab115461527848925270e81a)
+[Demo](http://blockbuilder.org/EmbraceLife/9dc7507eab115461527848925270e81a)   
+
+### stock example by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
+
+[Demo](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
+
+
+### Project
+#### Questions
+- M2 4 times in 10 years from today backward
+- HS300 performance during same period   
+- Stocks up 4 times during same period
+- stocks with less volatility
+- stocks with huge volatility
+
+#### Performance
+- Zoom in and hover to display names
