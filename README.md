@@ -6,11 +6,13 @@
 
 
 ## TOC
+
 [Line Charts](#line-charts)        
-[How to create a TOC in Markdown](https://youtu.be/S_jGcqajV9o)
 [Brush and Zoom](#brush-and-zoom)
+[Advanced Stock chart](#advanced-stock-example)
 
-
+## Other Basic Skills
+[video: How to create a TOC in Markdown](https://youtu.be/S_jGcqajV9o)
 
 
 
@@ -308,8 +310,9 @@ d3.csv("data.csv", type,  function(error, data) {
 
 ```
 [video: No need to use .data, but good to use .datum to bind column dataset](https://youtu.be/DKy2ClZWTDU)
-[Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
+[Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)    
 
+[Back to TOC](#toc)    
 
 
 #### 3-stock-return data => multi-line chart
@@ -433,7 +436,7 @@ d3.csv("data.csv", type,  function(error, data) {
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/04c7747f4f664d3cff48e0c730b417ae)
 
-
+[Back to TOC](#toc)    
 
 #### 3-stock-return data => multi-line chart
 ```html
@@ -577,6 +580,9 @@ var c =  rr.append("path")
 [video](https://youtu.be/F5fmCJJS7KM)      
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
+
+[Back to TOC](#toc)
+
 
 
 #### 3-stock-return data => Multi-line chart
@@ -744,7 +750,7 @@ d3.csv("data.csv", type,  function(error, data) {
 [Demo](http://blockbuilder.org/EmbraceLife/77a920a331c0ed20adfe2bba6f4b28aa)
 
 
-
+[Back to TOC](#toc)
 
 
 #### Multi-axis, return line, a candlebar chart
@@ -909,7 +915,7 @@ d3.csv("data.csv", type,  function(error, data) {
 [Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
 
 
-
+[Back to TOC](#toc)
 
 
 #### Solution to async between candlebar and return-line
@@ -1186,26 +1192,16 @@ var context = svg.append("g")
     .attr("class", "context")
     .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
 
-
-
-
-
-  // ---- step2: funcs: x-y-axis, area, brush, zoom -------
-
-
 var parseDate = d3.timeParse("%b %Y");
-
 
 var x = d3.scaleTime().range([0, width]),
     x2 = d3.scaleTime().range([0, width]),
     y = d3.scaleLinear().range([height, 0]),
     y2 = d3.scaleLinear().range([height2, 0]);
 
-
 var xAxis = d3.axisBottom(x),
     xAxis2 = d3.axisBottom(x2),
     yAxis = d3.axisLeft(y);
-
 
 var brush = d3.brushX()
 
@@ -1221,7 +1217,6 @@ var zoom = d3.zoom()
     .extent([[0, 0], [width, height]])
     .on("zoom", zoomed);
 
-
 var area = d3.area()
     .curve(d3.curveMonotoneX)
     .x(function(d) { return x(d.date); })
@@ -1234,11 +1229,6 @@ var area2 = d3.area()
     .y0(height2)
     .y1(function(d) { return y2(d.price); });
 
-
-
-// ---- step3: update x-y.domain values; draw zoom box area, x-y-axis, draw brush box area, x-axis; draw zoom box and brush box behaviour
-
-
 d3.csv("sp500.csv", type, function(error, data) {
   if (error) throw error;
 
@@ -1246,8 +1236,6 @@ d3.csv("sp500.csv", type, function(error, data) {
   y.domain([0, d3.max(data, function(d) { return d.price; })]);
   x2.domain(x.domain());
   y2.domain(y.domain());
-
-
 
 focus.append("path")
       .datum(data)
@@ -1262,7 +1250,6 @@ focus.append("path")
   focus.append("g")
       .attr("class", "axis axis--y")
       .call(yAxis);
-
 
   context.append("path")
       .datum(data)
@@ -1286,13 +1273,7 @@ focus.append("path")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
       .call(zoom);
 
-
-
 });
-
-
-// ---- step 4: define zoom box and brush box behaviour  
-
 
 function brushed() {
   if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;
@@ -1301,11 +1282,9 @@ function brushed() {
 
   x.domain(s.map(x2.invert, x2));
 
-
   focus.select(".area").attr("d", area);
 
   focus.select(".axis--x").call(xAxis);
-
 
   svg.select(".zoom")
     	.call(zoom.transform, d3.zoomIdentity
@@ -1342,8 +1321,6 @@ Set styles:
 - .zoom {cursor: move; pointer-events: all;}
 [video: change a sign on movable object](https://youtu.be/jsEMpHbGy8Q)   
 [video: mouse-event control](https://youtu.be/-xY-ZNjEpZk)
-
-
 
 Define variables:
 - set height and width for 2 view panels  
@@ -1560,9 +1537,6 @@ x.range().map(t.invertX, t)
 [video: sync brush-px change to zoom-kxy change and vice verse](https://youtu.be/h5Hp9tCUKa8)
 
 
-
-
-
 ##### Zoomed Function:
 ```javascript
 function zoomed() {
@@ -1593,6 +1567,8 @@ Brush and Zoom workflow:
 [Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
 [Cleaner Demo](http://bl.ocks.org/EmbraceLife/21cc0f29827dacf30a658ef7763c19e7)
 
+[Back to TOC](#toc)
+
 ----
 
 
@@ -1600,12 +1576,19 @@ Brush and Zoom workflow:
 
 [demo](http://bl.ocks.org/EmbraceLife/d66394e7abd5ee805eeb82284db3106f)
 
+----
+
 ### Hover to check
 
 [Demo](http://blockbuilder.org/EmbraceLife/9dc7507eab115461527848925270e81a)   
 
-### stock example by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
-How to Update to version 4
+----
+
+
+### advanced stock example
+by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
+
+=> How to Update to version 4
 - update v3 to v4
 ```html
 <script src='http://d3js.org/d3.v4.min.js' charset="utf-8"></script>
@@ -1614,12 +1597,13 @@ How to Update to version 4
 - Click on the error link to see the problematic code    
 [video](https://youtu.be/GhlrzcDc014)  
 
-
-
-
 [Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
 [Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)
 [Back to TOC](#toc)  
+
+----
+
+
 
 ### Project
 #### Questions
@@ -1631,3 +1615,7 @@ How to Update to version 4
 
 #### Performance
 - Zoom in and hover to display names
+
+
+[Back to TOC](#toc)
+-----
