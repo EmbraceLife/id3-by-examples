@@ -281,29 +281,24 @@ d3.csv("data.csv", type,  function(error, data) {
       .attr("fill", "#000")
       .text("return, 1-base");
 
-      var rr = g.selectAll(".return")
-        .data(returns) // must use .data(return)
-        .enter().append("g")
-          .attr("class", ".return");
+  g.append("path").datum(returns[0].values)
+    .attr("class", "line")
+    .attr("d", function(d) { return line(d); })
+    .style("stroke", "red" );
 
-      rr.append("path")
-          .attr("class", "line")
-          .attr("d", function(d) { return line(d.values); })
-          .style("stroke", "steelblue" );
-
-      rr.append("text")
-          .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
-          .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.return) + ")"; })
-          .attr("x", 3)
-          .attr("dy", "0.35em")
-          .style("font", "10px sans-serif")
-          .text(function(d) { return d.id; });
+  g.append("text")
+    .datum(returns[0].values)
+    .attr("transform", function(d){return "translate(" + x(d[returns[0].values.length - 1].date) + "," + y(d[returns[0].values.length - 1].return) + ")";})
+    .attr("x", 3)
+    .attr("dy", "0.35em")
+    .style("font", "10px sans-serif")
+    .text(function(d) { return returns[0].id; });
 
 });
 </script>
 
 ```
-[video: must use .data to bind column dataset](https://youtu.be/PnMQm2s5Y5I)
+[video: No need to use .data, but good to use .datum to bind column dataset](https://youtu.be/DKy2ClZWTDU)
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
 
 
@@ -909,9 +904,217 @@ d3.csv("data.csv", type,  function(error, data) {
 
 
 #### Solution to async between candlebar and return-line
-* rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
-* path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
-* provide data_filled.csv (missing data is filled with previous data and date)    
+
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg");  
+
+var  
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom;
+
+var  
+    g = svg.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().rangeRound([0, width]),
+
+    y = d3.scaleLinear().range([height, 0]);
+
+    y_return = d3.scaleLinear().range([height, 0]);
+
+var line = d3.line()
+			.curve(d3.curveBasis)
+            .x(function(d) { return x(d.Date); })
+            .y(function(d) {  return y_return(d.return); });
+
+function type(d, _, columns) {
+
+  d.Date = parseTime(+d.Date);
+
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;  
+}
+
+
+d3.csv("data_filled.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+  x.domain(d3.extent(data, function(d){return d.Date;}));
+
+  y_return.domain(d3.extent(data, function(d){return d.return;}));
+
+  y.domain(
+    [d3.min(data.map(function(d){return d.Low;})),
+    d3.max(data.map(function(d){return d.High;}))]
+  );
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+var rightAxis = g.append("g")
+      .attr("class", "axis axis--y")
+      .attr("transform", "translate("+width+","+0+")")
+      .call(d3.axisRight(y_return))
+
+	rightAxis
+    	.append("text")
+  		.attr("x",-10)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  	  .attr("text-anchor", "end")
+      .attr("fill", "#000")
+      .text("ROR");
+
+  rightAxis
+  		.append("rect")
+  		.attr("x", -30)
+  		.attr("y", 20)
+  		.attr("width", 15)
+  		.attr("height", 5)
+  		.attr("fill", "steelblue")
+
+var leftAxis = g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+
+// legend price
+leftAxis
+    .append("text")
+			.attr("x",10)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  		.attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("Price");
+
+//   legend red
+leftAxis
+    .append("rect")
+			.attr("x",10)
+      .attr("y", 26)
+      .attr("width", 15)
+  		.attr("height", 5)
+      .attr("fill", "red")
+leftAxis
+		.append("text")
+			.attr("x", 30)
+			.attr("y", 36)
+			.attr("dy", "-0.45em")
+			.attr("stroke", "red")
+			.attr("text-anchor", "start")
+      .text("up");
+
+//  legend green
+leftAxis
+    .append("rect")
+			.attr("x",10)
+      .attr("y", 36)
+      .attr("width", 15)
+  		.attr("height", 5)
+      .attr("fill", "green")
+leftAxis
+		.append("text")
+			.attr("x", 30)
+			.attr("y", 46)
+			.attr("dy", "-0.45em")
+			.attr("stroke", "green")
+			.attr("text-anchor", "start")
+      .text("down");  
+
+  var barWidth = width/data.length;
+
+  var candlebar = g.selectAll(".bar")
+    .data(data)
+    .enter().append("g")
+      .attr("class", ".bar")
+  		.attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+  ;
+
+    candlebar.append("line")
+  				  .attr("x1", barWidth/2)
+    				.attr("x2", barWidth/2)
+    				.attr("y1", function(d){ return y(d.High);})
+     				.attr("y2", function(d){ return y(d.Low);})
+    				.attr("stroke-width", 0.01)
+  					.attr("stroke", "gray");
+
+
+  candlebar.append("rect")
+            .attr("y", function(d) {
+    					if (d.Open > d.Close) {
+                          return y(d.Open)
+                        } else {
+	                        return y(d.Close);   
+                        }})
+
+            .attr("height", function(d) {
+    				    if (d.Open > d.Close) {
+                          return (height - y(d.Open)) - (height - y(d.Close));
+                        } else {
+                          if (d.Open < d.Close) {
+                          return (height - y(d.Close)) - (height - y(d.Open));
+                        }}})
+
+  		   .attr("fill", function(d){
+    										if (d.Open > d.Close) {
+                          return "green" ;
+                        } else {
+                          if (d.Open < d.Close) {
+                          return "red" ;
+                        }}})
+						.attr("opacity", 0.2)
+            .attr("width", barWidth);
+
+  var col_return = data.map(function(d){
+    return {
+
+        Date: d.Date,
+        return: d.return
+
+  }})
+
+  g.append("path")
+  		.datum(col_return)
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d);})
+      .style("stroke", "steelblue");
+
+});
+
+
+</script>
+
+```
+
+- rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
+- path-line will not ignore missing data (even though there is No NA, therefore, not included in data.file, see data_filled.csv)
+- provide data_filled.csv (missing data is filled with previous data and date)    
 [video](https://youtu.be/VVA11yeTA3Y)      
 - 2-y-axis created with .axisRight()    
 [video](https://youtu.be/MVYSLBoYiuI)     
@@ -921,15 +1124,217 @@ d3.csv("data.csv", type,  function(error, data) {
 
 [Demo](http://blockbuilder.org/EmbraceLife/acfe4bad38dc546e6917b914e5933016)
 
+
 ----
 
 ### Brush and Zoom     
 
 #### mbostock brush and zoom example
 
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.area {
+  fill: steelblue;
+  clip-path: url(#clip);
+}
+
+.zoom {
+  cursor: move;
+  fill: none;
+  pointer-events: all;
+}
+
+/*-------- step1: svg canvas, g for inner canvas ----   */
+
+</style>
+<svg width="960" height="500"></svg>
+<script src="https://d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 20, bottom: 110, left: 40},
+    margin2 = {top: 430, right: 20, bottom: 30, left: 40},
+    width = +svg.attr("width") - margin.left - margin.right,
+    height = +svg.attr("height") - margin.top - margin.bottom,
+    height2 = +svg.attr("height") - margin2.top - margin2.bottom;
+
+
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+
+
+var focus = svg.append("g")
+    .attr("class", "focus")
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var context = svg.append("g")
+    .attr("class", "context")
+    .attr("transform", "translate(" + margin2.left + "," + margin2.top + ")");
+
+
+
+
+
+  // ---- step2: funcs: x-y-axis, area, brush, zoom -------
+
+
+var parseDate = d3.timeParse("%b %Y");
+
+
+var x = d3.scaleTime().range([0, width]),
+    x2 = d3.scaleTime().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    y2 = d3.scaleLinear().range([height2, 0]);
+
+
+var xAxis = d3.axisBottom(x),
+    xAxis2 = d3.axisBottom(x2),
+    yAxis = d3.axisLeft(y);
+
+
+var brush = d3.brushX()
+
+    .extent([[0, 0], [width, height2]])
+    .on("brush end", brushed);
+
+var zoom = d3.zoom()
+
+    .scaleExtent([1, Infinity])
+
+    .translateExtent([[0, 0], [width, height]])
+
+    .extent([[0, 0], [width, height]])
+    .on("zoom", zoomed);
+
+
+var area = d3.area()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x(d.date); })
+    .y0(height)
+    .y1(function(d) { return y(d.price); });
+
+var area2 = d3.area()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x2(d.date); })
+    .y0(height2)
+    .y1(function(d) { return y2(d.price); });
+
+
+
+// ---- step3: update x-y.domain values; draw zoom box area, x-y-axis, draw brush box area, x-axis; draw zoom box and brush box behaviour
+
+
+d3.csv("sp500.csv", type, function(error, data) {
+  if (error) throw error;
+
+  x.domain(d3.extent(data, function(d) { return d.date; }));
+  y.domain([0, d3.max(data, function(d) { return d.price; })]);
+  x2.domain(x.domain());
+  y2.domain(y.domain());
+
+
+
+focus.append("path")
+      .datum(data)
+      .attr("class", "area")
+      .attr("d", area);
+
+  focus.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  focus.append("g")
+      .attr("class", "axis axis--y")
+      .call(yAxis);
+
+
+  context.append("path")
+      .datum(data)
+      .attr("class", "area")
+      .attr("d", area2);
+
+  context.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height2 + ")")
+      .call(xAxis2);
+
+  context.append("g")
+      .attr("class", "brush")
+      .call(brush)
+      .call(brush.move, x.range());
+
+  svg.append("rect")
+      .attr("class", "zoom")
+      .attr("width", width)
+      .attr("height", height)
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+      .call(zoom);
+
+
+
+});
+
+
+// ---- step 4: define zoom box and brush box behaviour  
+
+
+function brushed() {
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;
+
+  var s = d3.event.selection || x2.range();
+
+  x.domain(s.map(x2.invert, x2));
+
+
+  focus.select(".area").attr("d", area);
+
+  focus.select(".axis--x").call(xAxis);
+
+
+  svg.select(".zoom")
+    	.call(zoom.transform, d3.zoomIdentity
+      .scale(width / (s[1] - s[0]))
+      .translate(-s[0], 0))
+  ;
+}
+
+function zoomed() {
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return;
+
+  var t = d3.event.transform;
+
+  x.domain(t.rescaleX(x2).domain());
+  focus.select(".area").attr("d", area);
+  focus.select(".axis--x").call(xAxis);
+  context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+}
+
+function type(d) {
+  d.date = parseDate(d.date);
+  d.price = +d.price;
+  return d;
+}
+
+</script>
+
+```
+
+
 Set styles:
-- .area {clip-path: url(#clip)} ????
-- .zoom {cursor: move; pointer-events: all;} ????
+- .area {clip-path: url(#clip)}
+[video: prevent things display](https://youtu.be/rbkN0hnodEs)
+- .zoom {cursor: move; pointer-events: all;}
+[video: change a sign on movable object](https://youtu.be/jsEMpHbGy8Q)   
+[video: mouse-event control](https://youtu.be/-xY-ZNjEpZk)
+
+
 
 Define variables:
 - set height and width for 2 view panels  
@@ -940,35 +1345,92 @@ Create a date-format function:
 - 2 panels => 2 heights + 2 .range([height, 0]) => 2 g with own transform-translate origin     
 [video](https://youtu.be/pZHTpAHqJ48)
 
-create a brush func
+=> create a brush func
+```javascript
+var brush = d3.brushX()
+
+    .extent([[0, 0], [width, height2]])
+    .on("brush end", brushed);
+
+```
 - make a brush generator => set size => where action begin     
 [video](https://www.youtube.com/watch?v=EyW7uND_t44)   
 
-create a zoom func
+=> create a zoom func
+```javascript
+var zoom = d3.zoom()
+
+    .scaleExtent([1, Infinity])
+
+    .translateExtent([[0, 0], [width, height]])
+
+    .extent([[0, 0], [width, height]])
+    .on("zoom", zoomed);
+```
 - make a zoom generator => set scale range: 1 to infinite => set scale-screen size => set viewport size => where action begin     
 [video](https://youtu.be/HV_K5o1tMY4)   
 
-Create a area function:   
+=> Create a area function:   
+```javascript
+var area = d3.area()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x(d.date); })
+    .y0(height)
+    .y1(function(d) { return y(d.price); });
+```
 - make a area generator => set curve style => set x0 value by function, x1 as null => set y0 at bottom of viewport => set y1 as area topEdge     
 [video](https://youtu.be/SPTesThh0eE)
 
-Create A clip-path Rect here:
+=> Create A clip-path Rect here:
+```javascript
+svg.append("defs").append("clipPath")
+    .attr("id", "clip")
+  .append("rect")
+    .attr("width", width)
+    .attr("height", height);
+```
 - svg => defs:render,reuse elements => clip-path: not display portion of elements => a visual element like rect     
 [video](https://youtu.be/XfVMkZYHkeA)  
 
 
-draw area with area func defined:
+=> draw areas, x-y-axis
+```javascript
+focus.append("path")
+      .datum(data)
+      .attr("class", "area")
+      .attr("d", area);
+
+  focus.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  focus.append("g")
+      .attr("class", "axis axis--y")
+      .call(yAxis);
+
+  context.append("path")
+      .datum(data)
+      .attr("class", "area")
+      .attr("d", area2);
+
+  context.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height2 + ")")
+      .call(xAxis2);
+
+```
 - g placeholder => path => datum(data) => attr("d", area);
 - datum vs data => enter, exit or not     
 [video](https://youtu.be/HoZYskbULYM)     
 
-Draw with path or with g:
+=> Draw with path or with g:
 - path-datum-attr-d-area
 - g-call(xAxis)    
 [video](https://youtu.be/Qdt4NT0od8g)     
 
 
-draw brush: call => brush.move ????  
+=> draw brush: call => brush.move
 ```javascript
 context.append("g")
     .attr("class", "brush")
@@ -978,23 +1440,53 @@ context.append("g")
 ```  
 [video](https://youtu.be/kxolPUl4IEA)
 
-
-understand brushed and zoomed functions:
-- but not sure following code adds anything meaningful
+=> Set the range of gray movable control-box on context viewbox
 ```javascript
 .call(brush.move, x.range());
 ```
-[video](https://youtu.be/SFYkLwZWKPc)
+[video](https://youtu.be/3vt3Lf7SaUk)
 
-Brushed Function:
+=> logic flow from drawing focus-brush-box to understand brush-zoom-funcs
+```javascript
+context.append("g")
+    .attr("class", "brush")
+    .call(brush)
+    .call(brush.move, x.range());
+
+svg.append("rect")
+    .attr("class", "zoom")
+    .attr("width", width)
+    .attr("height", height)
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+    .call(zoom);
+
+    var brush = d3.brushX()
+
+        .extent([[0, 0], [width, height2]])
+        .on("brush end", brushed);
+
+    var zoom = d3.zoom()
+
+        .scaleExtent([1, Infinity])
+
+        .translateExtent([[0, 0], [width, height]])
+
+        .extent([[0, 0], [width, height]])
+        .on("zoom", zoomed);    
+```
+[video](recorded)
+
+
+##### Brushed Function:
 ```javascript
 function brushed() {
-  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return; // ignore brush-by-zoom
+  if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;
+  // 1. ignore brush-by-zoom
 
-// s is brush range px selection  
+// 2. s is brush range px selection  
   var s = d3.event.selection || x2.range();
 
-// convert s from px to date
+// 3. convert s from px to date
   x.domain(s.map(x2.invert, x2));  
 
   focus.select(".area").attr("d", area);
@@ -1006,18 +1498,63 @@ function brushed() {
       .scale(width / (s[1] - s[0]))
       .translate(-s[0], 0));}
 ```
-- Brushed-event-sourceEvent: why ignore brush-by-zoom???    
+=> 1. Brushed-event-sourceEvent: why ignore brush-by-zoom???    
 [video](https://youtu.be/PJ7Y7PfTL6g)
-- Brushed-update-x.domain: change brush area => record the change of px range of brush     
+
+=> 2. s is a range of px on x-axis on context box selected by brush
 [video](https://youtu.be/XY1HCaTTyvs)    
-- Brushed-update-x.domain: convert px range to date range to update x.domain()    
-[video](https://youtu.be/GV61bQtwfHQ)    
-- Brushed-control-tranform-k,x,y for zoom view box    
+
+=> 3. convert px range to date range, and set it to x.domain()
+```javascript
+x.domain(s.map(x2.invert, x2));  
+```
+[video](https://youtu.be/GV61bQtwfHQ)   
+
+=> 4. update to draw area and x-axis; then update k, x, y to scale up-down and move focus viewbox left-right
+```javascript
+svg.select(".zoom")
+      .call(zoom.transform, d3.zoomIdentity // default 1,0,0
+    .scale(width / (s[1] - s[0])) // set k
+    .translate(-s[0], 0)); // set x, y
+```     
 [video](https://youtu.be/-KJh4ZG5tl8)
-- Brushed: zoom rect move left & clip-path's power    
+
+=> 5. Brushed: zoom rect move left & clip-path's power    
 [video](https://youtu.be/KBPhIy7fDz8)
 
-Zoomed Function:
+=> conversion between px and dates and between k-x-y and dates
+```javascript
+// from bushed side: convert px range to date range
+var s = d3.event.selection || x2.range();
+x.domain(s.map(x2.invert, x2));
+
+// from zoomed side; convert from k-x-y to dates range
+var t = d3.event.transform;
+x.domain(t.rescaleX(x2).domain());
+```
+[video: px for context box and k-x-y for focus box to convert to date range](https://youtu.be/q4mKNSubfQg)
+
+=> sync brush-box change with zoom-box change     
+```javascript  
+// inside brush-box change, use px change to update k,x,y, to transform zoom box
+svg.select(".zoom")
+    .call(zoom.transform, d3.zoomIdentity
+    .scale(width / (s[1] - s[0]))
+    .translate(-s[0], 0));}
+
+// inside zoom-box change, use k,x,y change to update px
+context.select(".brush").call(brush.move, x.range().map(t.invertX, t));
+
+// convert k-x-y to px range
+x.range().map(t.invertX, t)
+```
+[video: sync brush-px change to zoom-kxy change and vice verse](uploading)
+
+
+
+
+
+##### Zoomed Function:
 ```javascript
 function zoomed() {
   if (d3.event.sourceEvent && d3.event.sourceEvent.type === "brush") return;
@@ -1046,6 +1583,10 @@ Brush and Zoom workflow:
 
 [Demo](http://blockbuilder.org/EmbraceLife/7efd1f9031beecb5252e57e944e1a440)
 [Cleaner Demo](http://bl.ocks.org/EmbraceLife/21cc0f29827dacf30a658ef7763c19e7)
+
+----
+
+
 ##### brush-zoom-candle-return
 
 [demo](http://bl.ocks.org/EmbraceLife/d66394e7abd5ee805eeb82284db3106f)
