@@ -303,17 +303,128 @@ d3.csv("data.csv", type,  function(error, data) {
 </script>
 
 ```
-
+[video: must use .data to bind column dataset](https://youtu.be/PnMQm2s5Y5I)
 [Practice Demo](http://blockbuilder.org/EmbraceLife/3c6ddf06851e61f9a915c5bc081c0c8e)
 
 
 
 #### 3-stock-return data => multi-line chart
-* there is no values as NA, only inner data among three stocks return rates
-* there are missing dates
-* path-line will take on those missing dates and smooth out the missing values on graph    
+
+=> Following code is a cope, only change is data file
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
 
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    z = d3.scaleOrdinal(d3.schemeCategory10);
+
+var line = d3.line()
+    .curve(d3.curveBasis)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.return); });
+
+function type(d, _, columns) {
+  d.date = parseTime(+d.date);
+//   i = 1 to skip date, c = columns[i] for +d[c]
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;  
+}
+
+
+d3.csv("data.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+  var returns = data.columns.slice(1).map(function(id) {
+    return {
+      id: id,
+      values: data.map(function(d) {
+        return {date: d.date, return: d[id]};
+      })
+    };
+  });
+
+  x.domain(d3.extent(returns[0].values, function(d) { return d.date; }));
+
+  y.domain(
+    [d3.min(returns, function(r){return d3.min(r.values, function(p){return p.return;});}),
+    d3.max(returns, function(r){return d3.max(r.values, function(p){return p.return;});})]
+  );
+
+   z.domain(returns.map(function(c) { return c.id; }));
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+			.attr("x",20)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  		.attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("return, 1-base");
+
+  var rr = g.selectAll(".return")
+    .data(returns)
+    .enter().append("g")
+      .attr("class", ".return");
+
+  rr.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values); })
+      .style("stroke", function(d){return z(d.id)} );
+
+  rr.append("text")
+      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.return) + ")"; })
+      .attr("x", 3)
+      .attr("dy", "0.35em")
+      .style("font", "10px sans-serif")
+      .text(function(d) { return d.id; });
+});
+
+
+</script>
+
+```
+
+=> structure of data file: about missing dates and values, NA
+* contains no NA
+* there are missing dates along with missing values
+* dataset is created by only inner merge among three stocks return rates
+* **path-line will take on those missing dates and smooth out the missing values** on graph    
 [video](https://youtu.be/ihTUo3cmozY)     
 
 [Practice Demo](http://blockbuilder.org/EmbraceLife/04c7747f4f664d3cff48e0c730b417ae)
@@ -321,17 +432,146 @@ d3.csv("data.csv", type,  function(error, data) {
 
 
 #### 3-stock-return data => multi-line chart
-* 3 df merged fully, no date is missing, but many NA created for other 2 stocks
-* path-line now will break and showing the empty spaces    
-[video](https://youtu.be/Kqv7Ix1bHBs)     
-- NA of data.file read as NaN through d3.js     
-[video](https://youtu.be/Xf3oZvBW8hQ)      
-- Convert NaN to null, easier to handle     
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg"),
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom,
+    g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().range([0, width]),
+    y = d3.scaleLinear().range([height, 0]),
+    z = d3.scaleOrdinal(d3.schemeCategory10);
+
+// .defined() remove all NaN or null
+var line = d3.line()
+    .curve(d3.curveBasis)
+	.defined(function(d){return d})
+    .x(function(d) { return x(d.date); })
+    .y(function(d) {  return y(d.return); });
+
+
+
+function type(d, _, columns) {
+  d.date = parseTime(+d.date);
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;  
+}
+
+d3.csv("data.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+  // NaN must be dealt as string
+  var returns = data.columns.slice(1).map(function(id) {
+    return {
+      id: id,
+      values: data.map(function(d) {
+        if(d[id]+"" === "NaN") {
+          return null;
+        } else {
+        return {date: d.date, return: d[id]};
+        }
+      })
+    };
+  });
+
+  x.domain(d3.extent(returns[2].values, function(d) { return d.date; }));
+
+// null is easier than NaN to handle
+  y.domain(
+    [d3.min(returns, function(r){return d3.min(r.values, function(p){ if(p !== null) return p.return;});}),
+    d3.max(returns, function(r){return d3.max(r.values, function(p){if(p !== null) return p.return;});})]
+  );
+
+   z.domain(returns.map(function(c) { return c.id; }));
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+			.attr("x",20)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  		.attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("return, 1-base");
+
+var rr = g.selectAll(".return")
+    .data(returns)
+    .enter().append("g")
+      .attr("class", ".return");
+
+
+
+var c =  rr.append("path")
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d.values);})
+      .style("stroke", function(d){return z(d.id)} );
+
+
+
+  rr.append("text")
+      .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 4]}; })
+      .attr("transform", function(d) { return "translate(" + x(d.value.date) + "," + y(d.value.return) + ")"; })
+      .attr("x", 3)
+      .attr("dy", "0.35em")
+      .style("font", "10px sans-serif")
+      .text(function(d) { return d.id; });
+});
+
+
+</script>
+
+```
+
+=> new struture of dataset
+- 3 df merged fully, no date is missing
+- but many NA created
+
+=> path-line now will break and showing the empty spaces    
+[video](https://youtu.be/Kqv7Ix1bHBs)    
+
+=> NA of data.file read as NaN through d3.js     
+[video](https://youtu.be/Xf3oZvBW8hQ)
+
+=> Convert NaN to null, easier to handle     
 [video](https://youtu.be/DSImln7Hekk)     
-- null is easier to handle       
+
+=> null is easier to handle       
 [video](https://youtu.be/et27mSllXEM)     
-- path-line func use .defined() to reject null in the first place without applying .x(), .y()
+
+=> path-line func use .defined() to reject null in the first place without applying .x(), .y()
 [video](https://youtu.be/F5fmCJJS7KM)      
+
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
 
 
@@ -342,10 +582,11 @@ d3.csv("data.csv", type,  function(error, data) {
 * switch data file from "data.csv" to "data_filled.csv"     
 [video](https://youtu.be/8-GIzELqOak )     
 
+
 ##### Notes
 * How to parse dateformat from data.file
-* How to handle NaN inside data-row-object
-* How to handle null data on d3.line().defined()
+* NaN must be dealt as string
+* null is removed by d3.line().defined()
 
 [Video](https://youtu.be/qJFme9KxtzQ)
 [Practice Demo](http://blockbuilder.org/EmbraceLife/c85ff2725cd17ca16371ae58689b9b15)
@@ -359,24 +600,313 @@ d3.csv("data.csv", type,  function(error, data) {
 ### CandleBar chart
 
 #### a basic candlebar chart
-- x-scale-map: use scaleTime not scaleBand  
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg");
+
+var  
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom;
+
+var  
+    g = svg.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().rangeRound([0, width]),
+
+    y = d3.scaleLinear().range([height, 0]);
+
+function type(d, _, columns) {
+
+  d.Date = parseTime(+d.Date);
+
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;  
+}
+
+
+d3.csv("data.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+    x.domain(d3.extent(data, function(d){return d.Date;}));
+
+  y.domain(
+    [d3.min(data.map(function(d){return d.Low;})),
+    d3.max(data.map(function(d){return d.High;}))]
+  );
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y))
+    .append("text")
+			.attr("x",20)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  		.attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("up-red, down-green");
+
+
+  var barWidth = width/data.length;
+
+  var candlebar = g.selectAll(".bar")
+    .data(data)
+    .enter().append("g")
+      .attr("class", ".bar")
+  		.attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+  ;
+
+    candlebar.append("line")
+			 .attr("x1", barWidth/2)
+			.attr("x2", barWidth/2)
+			.attr("y1", function(d){ return y(d.High);})
+			.attr("y2", function(d){ return y(d.Low);})
+			.attr("stroke-width", 0.01)
+			.attr("stroke", "gray");
+
+
+  candlebar.append("rect")
+            .attr("y", function(d) {
+    					if (d.Open > d.Close) {
+                          return y(d.Open)
+                        } else {
+	                        return y(d.Close);   
+                        }})
+
+            .attr("height", function(d) {
+    					if (d.Open > d.Close) {
+                          return (height - y(d.Open)) - (height - y(d.Close));
+                        } else {
+                          if (d.Open < d.Close) {
+                          return (height - y(d.Close)) - (height - y(d.Open));
+                        }}})
+
+			.attr("fill", function(d){
+					if (d.Open > d.Close) {
+                        return "green" ;
+            } else {
+                    if (d.Open < d.Close) {
+                        return "red" ;
+            }}})
+
+            .attr("width", barWidth);
+
+});
+
+
+</script>
+
+```
+
+=> x-scale-map: use scaleTime not scaleBand     
 [Video](https://youtu.be/0BYPUT7KPZQ)   
-- g->bar(transform-translate x position)->rect & line    
+
+=> g->bar(transform-translate x position)->rect & line     
 - rect fill color => d.Close vs d.Open    
 [video](https://youtu.be/Z4zQ40tq1-4)    
-- row-data => create bars and line-stick
+
+=> row-data => create bars and line-stick    
 [video](https://youtu.be/RWncr_E-Ag0)
 
 
 [Demo](http://blockbuilder.org/EmbraceLife/77a920a331c0ed20adfe2bba6f4b28aa)
 
+
+
+
+
 #### Multi-axis, return line, a candlebar chart
-- price & ror => 2 y-axis, display only ror    
+
+```html
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+.axis--x path {
+  display: none;
+}
+
+.line {
+  fill: none;
+  stroke: steelblue;
+  stroke-width: 1.5px;
+}
+
+</style>
+
+<svg width="960" height="500"></svg>
+
+<script src="//d3js.org/d3.v4.min.js"></script>
+<script>
+
+var svg = d3.select("svg");  
+
+var  
+    margin = {top: 20, right: 80, bottom: 30, left: 50},
+    width = svg.attr("width") - margin.left - margin.right,
+    height = svg.attr("height") - margin.top - margin.bottom;
+
+var  
+    g = svg.append("g")
+				.attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+var parseTime = d3.timeParse("%Y%m%d");
+
+var x = d3.scaleTime().rangeRound([0, width]),
+
+    y = d3.scaleLinear().range([height, 0]);
+
+    y_return = d3.scaleLinear().range([height, 0]);
+
+var line = d3.line()
+				.curve(d3.curveBasis)
+                .x(function(d) { return x(d.Date); })
+                .y(function(d) {  return y_return(d.return); });
+
+function type(d, _, columns) {
+
+  d.Date = parseTime(+d.Date);
+
+  for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+  return d;  
+}
+
+
+d3.csv("data.csv", type,  function(error, data) {
+  if (error) throw error;  
+
+		x.domain(d3.extent(data, function(d){return d.Date;}));
+
+    y_return.domain(d3.extent(data, function(d){return d.return;}));
+
+  y.domain(
+    [d3.min(data.map(function(d){return d.Low;})),
+    d3.max(data.map(function(d){return d.High;}))]
+  );
+
+  g.append("g")
+      .attr("class", "axis axis--x")
+      .attr("transform", "translate(0," + height + ")")
+      .call(d3.axisBottom(x));
+
+
+  g.append("g")
+      .attr("class", "axis axis--y")
+      .call(d3.axisLeft(y_return))
+    .append("text")
+	   .attr("x",20)
+      .attr("y", 6)
+      .attr("dy", "0.71em")
+  	   .attr("text-anchor", "start")
+      .attr("fill", "#000")
+      .text("up-red, down-green");
+
+
+  var barWidth = width/data.length;
+
+  var candlebar = g.selectAll(".bar")
+    .data(data)
+    .enter().append("g")
+      .attr("class", ".bar")
+  		.attr("transform", function(d, i) { return "translate(" + i * barWidth + ",0)"; });
+  ;
+
+    candlebar.append("line")
+  				  .attr("x1", barWidth/2)
+    				.attr("x2", barWidth/2)
+    				.attr("y1", function(d){ return y(d.High);})
+     				.attr("y2", function(d){ return y(d.Low);})
+    				.attr("stroke-width", 0.01)
+  					.attr("stroke", "gray");
+
+
+  candlebar.append("rect")
+            .attr("y", function(d) {
+    					if (d.Open > d.Close) {
+                          return y(d.Open)
+                        } else {
+	                        return y(d.Close);   
+                        }})
+
+            .attr("height", function(d) {
+    				    if (d.Open > d.Close) {
+                          return (height - y(d.Open)) - (height - y(d.Close));
+                        } else {
+                          if (d.Open < d.Close) {
+                          return (height - y(d.Close)) - (height - y(d.Open));
+                        }}})
+
+  			.attr("fill", function(d){
+    					if (d.Open > d.Close) {
+                          return "green" ;
+                        } else {
+                          if (d.Open < d.Close) {
+                          return "red" ;
+                        }}})
+
+            .attr("width", barWidth);
+
+
+
+  var col_return = data.map(function(d){
+    return {
+        Date: d.Date,
+        return: d.return
+  }})
+
+  var c =  g.append("path")
+  		.datum(col_return)
+      .attr("class", "line")
+      .attr("d", function(d) { return line(d);})
+      .style("stroke", "pink");
+
+});
+
+
+</script>
+
+```
+
+
+=> price & ror => 2 y-axis, display only ror    
 [video](https://youtu.be/sbpwhaFXN0A)
-- async between candlebar and return line    
+
+=> async between candlebar and return line    
 [video](https://youtu.be/KRPt-i96jbs)
 
 [Demo](http://blockbuilder.org/EmbraceLife/22dfe256e8d9400c2dc8c4a5e39da695)
+
+
+
+
 
 #### Solution to async between candlebar and return-line
 * rect and line (barChart) will ignore missing data (even though there is No NA, therefore, not included in data.file, see data.csv)
