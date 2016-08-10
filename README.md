@@ -8,8 +8,8 @@
 ## TOC
 
 [Line Charts](#line-charts)        
-[Brush and Zoom](#brush-and-zoom)
-[Advanced Stock chart](#advanced-stock-example)
+[Brush and Zoom](#brush-and-zoom)    
+[Advanced Stock chart](#advanced-stock-example)    
 
 ## Other Basic Skills
 [video: How to create a TOC in Markdown](https://youtu.be/S_jGcqajV9o)
