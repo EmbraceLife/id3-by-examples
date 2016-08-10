@@ -4,7 +4,8 @@
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place
 3. notes and videos as specific and short as possible
 
-
+[Line Charts](# Line Charts)
+[Brush and Zoom](# Brush and Zoom)
 
 ## Line Charts
 
