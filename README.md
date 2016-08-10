@@ -28,9 +28,18 @@ Set up a starting template
 
 
 **Step 1 -> Create svg canvas and g placeholder**   
-- `<svg width="960" height="500"></svg>` => create a svg canvas     
-- `svg = d3.select("svg")`: select and assign the canvas       
-- `g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")` => g placeholder to Locate a tarting point for inner canvas    
+Create a svg canvas
+```html
+<svg width="960" height="500"></svg>
+```    
+select and assign the canvas       
+```javascript
+svg = d3.select("svg")
+```
+g placeholder to Locate a tarting point for inner canvas    
+```javascript
+g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")")
+```
 
 [Video](https://youtu.be/MroiTmauDeg)    
 [Practice Demo](http://blockbuilder.org/EmbraceLife/d3bb1c7c3275ae84a5b8a12f28b1f2a5)
