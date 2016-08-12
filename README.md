@@ -4,7 +4,7 @@
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place    
 3. notes and videos as specific and short as possible     
 
-**Table of Conent**     
+# **Table of Conent**     
 
 ## line-bar-brush-mouse-tooltip
 
@@ -18,6 +18,10 @@
 - [Index left out by constraint](#left-out) 
 - [How to mouse around tooltip display](#mouse-tooltip)
 - [How to choose display options](#css-display)    
+- [How to brush to update](#brush-update)
+- [How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)
+- [How to update the gray selection box](#update-selection-box)
+- [The key of code for updating](#key-code-update)
 
 
 
@@ -524,7 +528,7 @@ function mousemove() {
 => `.style("display", "none"/null)`: null to display, none to hide     
 [video](https://youtu.be/RJz_EEfyzhk)    
 
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)  
 
 
 
@@ -576,7 +580,7 @@ function brushed() {
 [Back](#stock-price-volume-brush-tooltip)    
 
 
-
+### click rangeName
 => How to click rangeName and update focus graph and volume bars     
 ```javascript
 var dateRange = ['1w', '1m', '3m', '6m', '1y', '5y'],
@@ -652,8 +656,13 @@ function brushed() {
     y.domain([... ]}
 
 ```
-[video](https://youtu.be/NmHVUzE19pE)
+[video](https://youtu.be/NmHVUzE19pE)    
 
+[Back](#stock-price-volume-brush-tooltip)  
+
+
+
+### update selection box
 => How to update the gray selection rect when click rangeName and drag it smoothly    
 ```javascript
 var brush = d3.brushX()
@@ -691,7 +700,10 @@ var v = dateRange[i];
 ```
 [video](https://youtu.be/ZpGyaiQ1Xq0)
 
+[Back](#stock-price-volume-brush-tooltip)  
 
+
+### Key code update    
 => Key is to understand the updating effect of the following code
 ```javascript
 ...
@@ -700,9 +712,12 @@ context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1]
 ```
 [video](https://youtu.be/OcD7QKh5Brc)
 
+[Back](#stock-price-volume-brush-tooltip)  
+
 [Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)    
 [Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)    
-[Back to TOC](#toc)      
+
+[Back](#stock-price-volume-brush-tooltip)  
 
 
 ----
