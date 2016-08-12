@@ -11,10 +11,12 @@
 [Brush and Zoom](#brush-and-zoom)    
 [Advanced Stock chart](#advanced-stock-example)    
 
+----
+
 ## Other Basic Skills
 [video: How to create a TOC in Markdown](https://youtu.be/S_jGcqajV9o)
 
-
+----
 
 ## Line Charts
 
@@ -1588,18 +1590,647 @@ Brush and Zoom workflow:
 ### advanced stock example
 by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
 
+=> script.js has updated to version 4
+```javascript
+/* global d3, _ */
+
+(function() {
+  var margin = {top: 30, right: 20, bottom: 100, left: 50},
+    margin2  = {top: 210, right: 20, bottom: 20, left: 50},
+    width    = 764 - margin.left - margin.right,
+    height   = 483 - margin.top - margin.bottom -60,
+    height2  = 283 - margin2.top - margin2.bottom;
+
+  var parseDate = d3.timeParse('%d/%m/%Y'),
+    bisectDate = d3.bisector(function(d) { return d.date; }).left;
+
+
+
+
+  var x = d3.scaleTime().range([0, width]),
+    x2  = d3.scaleTime().range([0, width]),
+    y   = d3.scaleLinear().range([height, 0]),
+    y1  = d3.scaleLinear().range([height, 0]),
+    y2  = d3.scaleLinear().range([height2, 0]),
+    y3  = d3.scaleLinear().range([60, 0]);
+
+  var xAxis = d3.axisBottom(x),
+    xAxis2  = d3.axisBottom(x2),
+    yAxis   = d3.axisLeft(y);
+
+  var priceLine = d3.line()
+  // check out line.curve and curve factor or curves
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.price); });
+
+  var avgLine = d3.line()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x(d.date); })
+    .y(function(d) { return y(d.average); });
+
+  var area2 = d3.area()
+    .curve(d3.curveMonotoneX)
+    .x(function(d) { return x2(d.date); })
+    .y0(height2)
+    .y1(function(d) { return y2(d.price); });
+
+  var svg = d3.select('body').append('svg')
+    .attr('class', 'chart')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom + 60);
+
+  svg.append('defs').append('clipPath')
+     .attr('id', 'clip')
+  .append('rect')
+    .attr('width', width)
+    .attr('height', height);
+
+  var make_y_axis = function () {
+    return d3.axisLeft(y)
+      .ticks(3);
+  };
+
+  var focus = svg.append('g')
+    .attr('class', 'focus')
+    .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+  var barsGroup = svg.append('g')
+    .attr('class', 'volume')
+    .attr('clip-path', 'url(#clip)') // added clip-path css
+    .attr('transform', 'translate(' + margin.left + ',' + (margin.top + 60 + 20 + 150) + ')');
+
+  var context = svg.append('g')
+    .attr('class', 'context')
+    .attr('transform', 'translate(' + margin2.left + ',' + (margin2.top + 60 + 150) + ')');
+
+  var legend = svg.append('g')
+    .attr('class', 'chart__legend')
+    .attr('width', width)
+    .attr('height', 30)
+    .attr('transform', 'translate(' + margin2.left + ', 10)');
+
+  legend.append('text')
+    .attr('class', 'chart__symbol')
+    .text('NASDAQ: AAPL')
+
+  var rangeSelection =  legend
+    .append('g')
+    .attr('class', 'chart__range-selection')
+    .attr('transform', 'translate(110, 0)');
+
+   d3.csv('aapl.csv', type, function(err, data) {
+//     var brush = d3.svg.brush()
+//       .x(x2)
+//       .on('brush', brushed);
+
+    var brush = d3.brushX()
+
+    .extent([[0, 0], [width, height2]])
+    .on("brush", brushed);
+//     console.log(brush.extent()());
+
+    var xRange = d3.extent(data.map(function(d) { return d.date; }));
+// console.log(xRange)
+
+    x.domain(xRange);
+    y.domain(d3.extent(data.map(function(d) { return d.price; })));
+    y3.domain(d3.extent(data.map(function(d) { return d.volume; })));
+    x2.domain(x.domain());
+    y2.domain(y.domain());
+
+    var min = d3.min(data.map(function(d) { return d.price; }));
+    var max = d3.max(data.map(function(d) { return d.price; }));
+
+    var range = legend.append('text')
+      .text((new Date(xRange[0])).toDateString() + ' - ' + (new Date(xRange[1]).toDateString()))
+      .style('text-anchor', 'end')
+      .attr('transform', 'translate(' + width + ', 0)');
+
+    focus.append('g')
+        .attr('class', 'y chart__grid')
+        .call(make_y_axis()
+//         .tickSizeInner(-width)
+//         .tickSizeOuter(-width)
+         .tickSize(-width)
+        .tickFormat(''));
+
+
+    var averageChart = focus.append('path')
+        .datum(data)
+        .attr('class', 'chart__line chart__average--focus line')
+        .attr('d', avgLine);
+
+    var priceChart = focus.append('path')
+        .datum(data)
+        .attr('class', 'chart__line chart__price--focus line')
+        .attr('d', priceLine);
+
+    focus.append('g')
+        .attr('class', 'x axis')
+        .attr('transform', 'translate(0 ,' + height + ')')
+        .call(xAxis);
+
+    focus.append('g')
+        .attr('class', 'y axis')
+        .attr('transform', 'translate(12, 0)')
+        .call(yAxis);
+
+// volume bars, no x-axis for bars
+    var focusGraph = barsGroup.selectAll('rect')
+        .data(data)
+      .enter().append('rect')
+        .attr('class', 'chart__bars')
+        .attr('x', function(d, i) { return x(d.date); })
+        .attr('y', function(d) { return 155 - y3(d.volume); })
+        .attr('width', 1)
+        .attr('height', function(d) { return y3(d.volume); });
+
+    var helper = focus.append('g')
+      .attr('class', 'chart__helper')
+      .style('text-anchor', 'end')
+      .attr('transform', 'translate(' + width + ', 0)');
+
+    var helperText = helper.append('text')
+
+    var priceTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--price')
+      .append('circle')
+      .style('display', 'none') // null to display, none to hide
+      .attr('r', 2.5);
+
+    var averageTooltip = focus.append('g')
+      .attr('class', 'chart__tooltip--average')
+      .append('circle')
+      .style('display', 'none')
+      .attr('r', 2.5);
+
+    var mouseArea = svg.append('g')
+      .attr('class', 'chart__mouse')
+      .append('rect')
+      .attr('class', 'chart__overlay')
+      .attr('width', width)
+      .attr('height', height)
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+      .on('mouseover', function() {
+        helper.style('display', null);
+        priceTooltip.style('display', null);
+        averageTooltip.style('display', null);
+      })     
+      .on('mouseout', function() {
+        helper.style('display', 'none');
+        priceTooltip.style('display', 'none');
+        averageTooltip.style('display', 'none');
+      })
+      .on('mousemove', mousemove);
+
+    context.append('path')
+        .datum(data)
+        .attr('class', 'chart__area area')
+        .attr('d', area2);
+
+    context.append('g')
+        .attr('class', 'x axis chart__axis--context')
+        .attr('y', 0)
+        .attr('transform', 'translate(0,' + (height2 - 22) + ')')
+        .call(xAxis2);
+
+    context.append('g')
+        .attr('class', 'x-brush')
+        .call(brush)
+    .call(brush.move, x2.range())
+      .selectAll('rect')
+        .attr('y', -6)
+        .attr('height', height2 + 7);
+
+    function mousemove() {
+//       convert mouse (x,y)'s x to date
+      var x0 = x.invert(d3.mouse(this)[0]);
+
+      var i = bisectDate(data, x0, 1);
+// var i = bisectDate(data, data[2].date, 1);
+//       console.log(i);
+
+      var d0 = data[i - 1];
+      var d1 = data[i];
+
+// if mouse is at the first date, let d be d0; if mouse is beyond the first date, let d be d1
+      var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+      helperText.text((new Date(d.date)).toDateString() + ' - Price: ' + d.price + ' Avg: ' + d.average);
+
+      priceTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.price) + ')');
+
+      averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+    }
+
+    function brushed() {
+
+//       if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;       
+
+      var s = d3.event.selection || x2.range();  
+
+      x.domain(s.map(x2.invert, x2));    
+
+        y.domain([
+
+          d3.min(data.map(function(d) { return (d.date >= x.domain()[0] && d.date <= x.domain()[1]) ? d.price : min; })), // min here is minimum price of data
+
+          d3.max(data.map(function(d) { return (d.date >= x.domain()[0] && d.date <= x.domain()[1]) ? d.price : max; }))  // max here is maximum price of data
+        ]);
+
+        range.text((new Date(x.domain()[0])).toDateString() + ' - ' + (new Date(x.domain()[1])).toDateString())
+
+//   focusGraph has many rects, binding data, but x is updated with new domain
+//  therefore, x(d.date) will only reflect brushed dataset         
+        focusGraph.attr('x', function(d, i) { return x(d.date); });
+
+        var days = Math.ceil((x.domain()[1] - x.domain()[0]) / (24 * 3600 * 1000))
+
+//   if zoom in on period of less 40 days, set barwidth to be (40-days)*5/6
+//   if zoom in n period over 40 days, set barwidth to be 5px
+        focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5)
+
+
+      priceChart.attr('d', priceLine);
+      averageChart.attr('d', avgLine);
+      focus.select('.x.axis').call(xAxis);
+      focus.select('.y.axis').call(yAxis);
+
+    }
+
+    var dateRange = ['1w', '1m', '3m', '6m', '1y', '5y'],
+        rangeName;//added
+
+    for (var i = 0, l = dateRange.length; i < l; i ++) {
+
+      var v = dateRange[i];
+      rangeSelection
+        .append('text')
+        .attr('class', 'chart__range-selection')
+        .text(v)
+        .attr('transform', 'translate(' + (18 * i) + ', 0)')
+        .on('click', function(d) {
+        rangeName = this.textContent
+        focusOnRange(rangeName);
+      });
+
+    }
+
+    function focusOnRange(rangeName) {
+
+      var today = new Date(data[data.length - 1].date)
+      var ext = new Date(data[data.length - 1].date)
+
+      if (rangeName === '1m')
+        ext.setMonth(ext.getMonth() - 1)
+
+      if (rangeName === '1w')
+        ext.setDate(ext.getDate() - 7)
+
+      if (rangeName === '3m')
+        ext.setMonth(ext.getMonth() - 3)
+
+      if (rangeName === '6m')
+        ext.setMonth(ext.getMonth() - 6)
+
+      if (rangeName === '1y')
+        ext.setFullYear(ext.getFullYear() - 1)
+
+      if (rangeName === '5y')
+        ext.setFullYear(ext.getFullYear() - 5)
+
+      x.domain([ext, today]);
+
+      context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1])]);
+
+    }
+
+  })// end Data
+
+  function type(d) {
+    return {
+      date    : parseDate(d.Date),
+      price   : +d.Close,
+      average : +d.Average,
+      volume : +d.Volume, // scale volume smaller
+    }
+  }
+}());
+```
+
 => How to Update to version 4
 - update v3 to v4
 ```html
 <script src='http://d3js.org/d3.v4.min.js' charset="utf-8"></script>
 ```
 - Check error on console view     
-- Click on the error link to see the problematic code    
+- Click on the error link to see the problematic code     
+
 [video](https://youtu.be/GhlrzcDc014)  
 
-[Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)
-[Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)
-[Back to TOC](#toc)  
+=> use of axis.tickSize  
+```javascript
+focus.append('g')
+    .attr('class', 'y chart__grid')
+    .call(make_y_axis()
+    // .tickSize(-width, 0, 0)
+    .tickSize(-width)
+    // .tickSizeInner(-width)
+    // .tickSizeOuter(-width)
+    .tickFormat(''));
+```
+- the correct code should be `tickSize(-width)`    
+[video: tickSize src](https://youtu.be/-wThViyYVzY)    
+- `.tickSize()` = `.tickSizeInner()` + `.tickSizeOuter()`   
+- they all have just one argument   
+[video: their effects](https://youtu.be/TKkruCsOKkw)    
+
+=> set three panels starting points and heights and widths
+```javascript
+var margin = {top: 30, right: 20, bottom: 100, left: 50},
+  margin2  = {top: 210, right: 20, bottom: 20, left: 50},
+  width    = 764 - margin.left - margin.right,
+  height   = 483 - margin.top - margin.bottom -60,
+  height2  = 283 - margin2.top - margin2.bottom;
+
+  var svg = d3.select('body').append('svg')
+    .attr('class', 'chart')
+    .attr('width', width + margin.left + margin.right)
+    .attr('height', height + margin.top + margin.bottom + 60);
+
+  svg.append('defs').append('clipPath')
+    .attr('id', 'clip')
+  .append('rect')
+    .attr('width', width)
+    .attr('height', height);
+
+    var focus = svg.append('g')
+      .attr('class', 'focus')
+      .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')');
+
+    var barsGroup = svg.append('g')
+      .attr('class', 'volume')
+      .attr('clip-path', 'url(#clip)') // added clip-path css
+      .attr('transform', 'translate(' + margin.left + ',' + (margin.top + 60 + 20 + 150) + ')');
+
+    var context = svg.append('g')
+      .attr('class', 'context')
+      .attr('transform', 'translate(' + margin2.left + ',' + (margin2.top + 60 + 150) + ')');
+```
+- current starting position for 3 panels are a mess, needs a clean way to define them
+[video](https://youtu.be/11OIGzA_Lp8)
+
+=> convert a date object to a string in the format we need     
+```javascript
+var range = legend.append('text')
+  .text((new Date(xRange[0])).toDateString() + ' - ' + (new Date(xRange[1]).toDateString()))
+  .style('text-anchor', 'end')
+  .attr('transform', 'translate(' + width + ', 0)');
+```
+[video](https://youtu.be/Zz86atOrWx0)
+
+=> how to use d3.bisector(func).left     
+```javascript
+var bisectDate = d3.bisector(function(d) { return d.date; }).left;
+// only date column are extracted from data
+var i = bisectDate(data, data[2].date, 1);
+console.log(i)
+```
+- i is index which is set to be equal or greater than 1     
+[video](https://youtu.be/5GpeKc8POqY)
+
+=> when mouse is at the very first date, use d0; otherwise use d1    
+```javascript
+      var d0 = data[i - 1];
+      var d1 = data[i];
+      var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+```
+[video](https://youtu.be/KyPG3H36mws)
+
+=> mouse-tooltip-two-lines-text-label-updating
+```javascript
+var mouseArea = svg.append('g')
+  .attr('class', 'chart__mouse')
+  .append('rect')
+  .attr('class', 'chart__overlay')
+  .attr('width', width)
+  .attr('height', height)
+  .attr('transform', 'translate(' + margin.left + ',' + margin.top + ')')
+  .on('mouseover', function() {
+    helper.style('display', null);
+    priceTooltip.style('display', null);
+    averageTooltip.style('display', null);
+  })     
+  .on('mouseout', function() {
+    helper.style('display', 'none');
+    priceTooltip.style('display', 'none');
+    averageTooltip.style('display', 'none');
+  })
+  .on('mousemove', mousemove);
+
+
+
+function mousemove() {
+//       convert mouse (x,y)'s x to date
+  var x0 = x.invert(d3.mouse(this)[0]);
+
+  var i = bisectDate(data, x0, 1);
+// var i = bisectDate(data, data[2].date, 1);
+//       console.log(i);
+
+  var d0 = data[i - 1];
+  var d1 = data[i];
+
+// if mouse is at the first date, let d be d0; if mouse is beyond the first date, let d be d1
+  var d = x0 - d0.date > d1.date - x0 ? d1 : d0;
+
+  helperText.text((new Date(d.date)).toDateString() + ' - Price: ' + d.price + ' Avg: ' + d.average);
+
+  priceTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.price) + ')');
+
+  averageTooltip.attr('transform', 'translate(' + x(d.date) + ',' + y(d.average) + ')');
+}
+
+```
+[video](https://youtu.be/KyYhNCB7F3o)
+
+
+=> `.style("display", "none"/null)`: null to display, none to hide     
+[video](https://youtu.be/RJz_EEfyzhk)    
+
+=> How brush func select a range at context and change focus graph at the same time
+```javascript
+
+function brushed() {
+
+//       if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;       
+
+  var s;
+
+  if(rangeName == undefined) {
+      s = d3.event.selection || x2.range();  
+
+    // convert brushed px range to date range and update it to x.domain
+    x.domain(s.map(x2.invert, x2));    
+  }
+
+    rangeName = undefined;
+
+    y.domain([
+
+      d3.min(data.map(function(d) { return (d.date >= x.domain()[0] && d.date <= x.domain()[1]) ? d.price : min; })), // min here is minimum price of data
+
+      d3.max(data.map(function(d) { return (d.date >= x.domain()[0] && d.date <= x.domain()[1]) ? d.price : max; }))  // max here is maximum price of data
+    ]);
+
+    range.text((new Date(x.domain()[0])).toDateString() + ' - ' + (new Date(x.domain()[1])).toDateString())
+
+//   focusGraph has many rects, binding data, but x is updated with new domain
+//  therefore, x(d.date) will only reflect brushed dates corresponding px position          
+    focusGraph.attr('x', function(d, i) { return x(d.date); });
+
+    var days = Math.ceil((x.domain()[1] - x.domain()[0]) / (24 * 3600 * 1000))
+
+//   if zoom in on period of less 40 days, set barwidth to be (40-days)*5/6
+//   if zoom in n period over 40 days, set barwidth to be 5px
+    focusGraph.attr('width', (40 > days) ? (40 - days) * 5 / 6 : 5)
+
+  priceChart.attr('d', priceLine);
+  averageChart.attr('d', avgLine);
+  focus.select('.x.axis').call(xAxis);
+  focus.select('.y.axis').call(yAxis);
+}
+```
+[video](https://youtu.be/9rUvRcBd5dI)
+
+
+=> How to click rangeName and update focus graph and volume bars     
+```javascript
+var dateRange = ['1w', '1m', '3m', '6m', '1y', '5y'],
+    rangeName;//added
+
+for (var i = 0, l = dateRange.length; i < l; i ++) {
+
+  var v = dateRange[i];
+
+  // draw all range options on focus graph top  
+  rangeSelection
+    .append('text')
+    .attr('class', 'chart__range-selection')
+    .text(v)
+    .attr('transform', 'translate(' + (18 * i) + ', 0)')
+
+    // click any one of rangeName to update rangeName and x.domain date-range
+    .on('click', function(d) {
+
+    rangeName = this.textContent
+    focusOnRange(rangeName);
+
+  });
+
+}
+
+function focusOnRange(rangeName) {
+
+  // define the dateRange [ext, today] by click rangeName
+  var today = new Date(data[data.length - 1].date)
+  var ext = new Date(data[data.length - 1].date)
+
+  if (rangeName === '1m')
+    ext.setMonth(ext.getMonth() - 1)
+
+  if (rangeName === '1w')
+    ext.setDate(ext.getDate() - 7)
+
+  if (rangeName === '3m')
+    ext.setMonth(ext.getMonth() - 3)
+
+  if (rangeName === '6m')
+    ext.setMonth(ext.getMonth() - 6)
+
+  if (rangeName === '1y')
+    ext.setFullYear(ext.getFullYear() - 1)
+
+  if (rangeName === '5y')
+    ext.setFullYear(ext.getFullYear() - 5)
+
+// update x.domain() with this new dateRange by click-rangeName
+  x.domain([ext, today]);
+
+// run brushed function
+  brushed();
+}
+
+function brushed() {
+
+//       if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;       
+
+  var s;
+// if rangeName is not selected, graph updated will be based on brush event
+  if(rangeName == undefined) {
+      s = d3.event.selection || x2.range();  
+
+    // convert brushed px range to date range and update it to x.domain
+    x.domain(s.map(x2.invert, x2));    
+  }
+// if rangeName is selected, brush event will be ignored, and x.   
+    rangeName = undefined;
+
+    y.domain([... ]}
+
+```
+[video](https://youtu.be/NmHVUzE19pE)
+
+=> How to update the gray selection rect when click rangeName and drag it smoothly    
+```javascript
+var brush = d3.brushX()
+.extent([[0, 0], [width, height2]])
+.on("brush", brushed);
+
+context.append('g')
+        .attr('class', 'x-brush')
+        .call(brush)
+    .call(brush.move, x2.range())
+      .selectAll('rect')
+        .attr('y', -6)
+        .attr('height', height2 + 7);
+
+var v = dateRange[i];
+    rangeSelection
+      .append('text')
+      .attr('class', 'chart__range-selection')
+      .text(v)
+      .attr('transform', 'translate(' + (18 * i) + ', 0)')
+      .on('click', function(d) {
+      rangeName = this.textContent
+      focusOnRange(rangeName);
+    });
+
+  }
+
+  function focusOnRange(rangeName) {
+      ...
+      x.domain([ext, today]);
+    //  x2(x.domain()[0]), x2(x.domain()[1]) update size of gray box .selection
+      context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1])]);
+    //  as select the whole brush, so it is dragable
+  }
+```
+[video](https://youtu.be/ZpGyaiQ1Xq0)
+
+
+=> Key is to understand the updating effect of the following code
+```javascript
+...
+context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1])]);
+...
+```
+[video](https://youtu.be/OcD7QKh5Brc)
+
+[Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)    
+[Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)    
+[Back to TOC](#toc)      
 
 ----
 
