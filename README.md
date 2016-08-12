@@ -22,7 +22,7 @@
 - [How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)
 - [How to update the gray selection box](#update-selection-box)
 - [The key of code for updating](#key-code-update)
-
+- [How to understand multi-file such as css script etc, exampe](#script-css)    
 
 
 
@@ -713,6 +713,14 @@ context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1]
 [video](https://youtu.be/OcD7QKh5Brc)
 
 [Back](#stock-price-volume-brush-tooltip)  
+
+### script css
+=> How to understand a multiple files example: 
+[video](uploading)
+
+[Back](#stock-price-volume-brush-tooltip)  
+
+
 
 [Demo v3](http://blockbuilder.org/EmbraceLife/8d5f72013244fb92fc4fe03279a14ebf)    
 [Demo v4](http://blockbuilder.org/EmbraceLife/14ba2eadaeba1767591e96102a7471a2)    
