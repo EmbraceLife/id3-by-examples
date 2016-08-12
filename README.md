@@ -4,10 +4,11 @@
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place    
 3. notes and videos as specific and short as possible     
 
+**Table of Conent**     
 
-## TOC
+## line-bar-brush-mouse-tooltip
 
-[Advanced Stock chart](#advanced-stock-example)    
+### stock price volume brush tooltip
 - [source v4](#asc-src)    
 - [update to version4](#update-to-4)    
 - [How to use axis.tickSize](#ticksize)    
@@ -16,7 +17,10 @@
 - [How to contrain index](#bisector-left)    
 - [Index left out by constraint](#left-out) 
 - [How to mouse around tooltip display](#mouse-tooltip)
-- 
+- [How to choose display options](#css-display)    
+
+
+
 
 [Line Charts](#line-charts)        
 [Brush and Zoom](#brush-and-zoom)    
@@ -354,7 +358,7 @@ by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)
   }
 }());
 ```
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### update to 4
@@ -424,7 +428,7 @@ var margin = {top: 30, right: 20, bottom: 100, left: 50},
 ```
 - current starting position for 3 panels are a mess, needs a clean way to define them    
 [video](https://youtu.be/11OIGzA_Lp8)    
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### date to string
@@ -450,7 +454,7 @@ console.log(i)
 - i is index which is set to be equal or greater than 1       
 
 [video](https://youtu.be/5GpeKc8POqY)    
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### left out
@@ -512,21 +516,25 @@ function mousemove() {
 ```
 [video](https://youtu.be/KyYhNCB7F3o)
 
-[Back](#toc)
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 
-
+### css display
 => `.style("display", "none"/null)`: null to display, none to hide     
 [video](https://youtu.be/RJz_EEfyzhk)    
 
+[Back](#toc)    
+
+
+
+### brush update
 => How brush func select a range at context and change focus graph at the same time
 ```javascript
 
 function brushed() {
 
 //       if (d3.event.sourceEvent && d3.event.sourceEvent.type === "zoom") return;       
-
   var s;
 
   if(rangeName == undefined) {
@@ -564,6 +572,9 @@ function brushed() {
 }
 ```
 [video](https://youtu.be/9rUvRcBd5dI)
+
+[Back](#stock-price-volume-brush-tooltip)    
+
 
 
 => How to click rangeName and update focus graph and volume bars     
