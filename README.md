@@ -12,8 +12,10 @@
 - [update to version4](#update-to-4)    
 - [How to use axis.tickSize](#ticksize)    
 - [How to clean margins, width, height for 3 panels](#margins)    
-- [How to convert date to string](#date-to-string)    
-- [How to contrain index to >= 1](#bisector.left)    
+- [How to convert date to string](#date-to-string)
+- [How to contrain index](#bisector-left)    
+- [Index left out by constraint](#left-out) 
+- [How to mouse around tooltip display](#mouse-tooltip)
 - 
 
 [Line Charts](#line-charts)        
@@ -437,7 +439,7 @@ var range = legend.append('text')
 [Back](#toc)    
 
 
-### bisector.left    
+### bisector left    
 => how to use d3.bisector(func).left     
 ```javascript
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -446,11 +448,12 @@ var i = bisectDate(data, data[2].date, 1);
 console.log(i)
 ```
 - i is index which is set to be equal or greater than 1       
+
 [video](https://youtu.be/5GpeKc8POqY)    
 [Back](#toc)    
 
 
-
+### left out
 => when mouse is at the very first date, use d0; otherwise use d1    
 ```javascript
       var d0 = data[i - 1];
@@ -459,6 +462,11 @@ console.log(i)
 ```
 [video](https://youtu.be/KyPG3H36mws)
 
+[Back](#toc)    
+
+
+
+### mouse tooltip
 => mouse-tooltip-two-lines-text-label-updating
 ```javascript
 var mouseArea = svg.append('g')
@@ -479,8 +487,6 @@ var mouseArea = svg.append('g')
     averageTooltip.style('display', 'none');
   })
   .on('mousemove', mousemove);
-
-
 
 function mousemove() {
 //       convert mouse (x,y)'s x to date
@@ -505,6 +511,10 @@ function mousemove() {
 
 ```
 [video](https://youtu.be/KyYhNCB7F3o)
+
+[Back](#toc)
+
+
 
 
 => `.style("display", "none"/null)`: null to display, none to hide     
