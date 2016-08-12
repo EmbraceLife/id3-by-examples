@@ -10,7 +10,11 @@
 [Advanced Stock chart](#advanced-stock-example)    
 - [source v4](#asc-src)    
 - [update to version4](#update-to-4)    
-- [How to use axis.tickSize](#tickSize) 
+- [How to use axis.tickSize](#ticksize)    
+- [How to clean margins, width, height for 3 panels](#margins)    
+- [How to convert date to string](#date-to-string)    
+- [How to contrain index to >= 1](#bisector.left)    
+- 
 
 [Line Charts](#line-charts)        
 [Brush and Zoom](#brush-and-zoom)    
@@ -383,7 +387,7 @@ focus.append('g')
 
 
 
-
+### margins
 => set three panels starting points and heights and widths
 ```javascript
 var margin = {top: 30, right: 20, bottom: 100, left: 50},
@@ -416,9 +420,12 @@ var margin = {top: 30, right: 20, bottom: 100, left: 50},
       .attr('class', 'context')
       .attr('transform', 'translate(' + margin2.left + ',' + (margin2.top + 60 + 150) + ')');
 ```
-- current starting position for 3 panels are a mess, needs a clean way to define them
-[video](https://youtu.be/11OIGzA_Lp8)
+- current starting position for 3 panels are a mess, needs a clean way to define them    
+[video](https://youtu.be/11OIGzA_Lp8)    
+[Back](#toc)    
 
+
+### date to string
 => convert a date object to a string in the format we need     
 ```javascript
 var range = legend.append('text')
@@ -426,8 +433,11 @@ var range = legend.append('text')
   .style('text-anchor', 'end')
   .attr('transform', 'translate(' + width + ', 0)');
 ```
-[video](https://youtu.be/Zz86atOrWx0)
+[video](https://youtu.be/Zz86atOrWx0)    
+[Back](#toc)    
 
+
+### bisector.left    
 => how to use d3.bisector(func).left     
 ```javascript
 var bisectDate = d3.bisector(function(d) { return d.date; }).left;
@@ -435,8 +445,11 @@ var bisectDate = d3.bisector(function(d) { return d.date; }).left;
 var i = bisectDate(data, data[2].date, 1);
 console.log(i)
 ```
-- i is index which is set to be equal or greater than 1     
-[video](https://youtu.be/5GpeKc8POqY)
+- i is index which is set to be equal or greater than 1       
+[video](https://youtu.be/5GpeKc8POqY)    
+[Back](#toc)    
+
+
 
 => when mouse is at the very first date, use d0; otherwise use d1    
 ```javascript
