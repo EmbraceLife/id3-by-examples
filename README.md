@@ -716,6 +716,8 @@ context.select(".x-brush").call(brush.move, [x2(x.domain()[0]), x2(x.domain()[1]
 
 ### script css
 => How to understand a multiple files example: 
+- need more familiar with styles or css      
+
 [video](uploading)
 
 [Back](#stock-price-volume-brush-tooltip)  
