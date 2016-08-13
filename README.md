@@ -8,21 +8,24 @@
 
 ## line-bar-brush-mouse-tooltip
 
-### stock price volume brush tooltip
-- [source v4](#asc-src)    
-- [update to version4](#update-to-4)    
-- [How to use axis.tickSize](#ticksize)    
-- [How to clean margins, width, height for 3 panels](#margins)    
-- [How to convert date to string](#date-to-string)
-- [How to contrain index](#bisector-left)    
-- [Index left out by constraint](#left-out) 
-- [How to mouse around tooltip display](#mouse-tooltip)
-- [How to choose display options](#css-display)    
-- [How to brush to update](#brush-update)
-- [How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)
-- [How to update the gray selection box](#update-selection-box)
-- [The key of code for updating](#key-code-update)
-- [How to understand multi-file such as css script etc, exampe](#script-css)    
+### stock price volume brush tooltip      
+
+[no clip-path transform-translate and width-height as big as possible](#clip-path-no-translate)
+[How to make margin-height-width cleaner?](#margin-clean)    
+[source v4](#asc-src)    
+[update to version4](#update-to-4)    
+[How to use axis.tickSize](#ticksize)    
+[How to clean margins, width, height for 3 panels](#margins)    
+[How to convert date to string](#date-to-string)
+[How to contrain index](#bisector-left)    
+[Index left out by constraint](#left-out) 
+[How to mouse around tooltip display](#mouse-tooltip)
+[How to choose display options](#css-display)    
+[How to brush to update](#brush-update)
+[How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)
+[How to update the gray selection box](#update-selection-box)
+[The key of code for updating](#key-code-update)
+[How to understand multi-file such as css script etc, exampe](#script-css)    
 
 
 
@@ -39,6 +42,47 @@
 
 ### advanced stock example
 by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
+
+
+
+
+### clip path no translate    
+=> no clip-path transform-translate and width-height as big as possible    
+- purpose: to avoid part of visual elements lose its visibility    
+
+```javascript 
+svg.append('defs').append('clipPath')
+     .attr('id', 'clip')
+//      	 .attr("transform", "translate(" + margin.left + "," + margin.top +")" )
+  .append('rect')
+    .attr('width', 960) // width
+    .attr('height', 500); // height_big
+```
+[video](https://youtu.be/ggCmpyHo7Zg)    
+[Back](#stock-price-volume-brush-tooltip)    
+
+
+
+### margin clean    
+=> How to make margin-height-width cleaner?    
+- svg width and height to be set first     
+- margin top, bottom, right, left, one set is enough    
+- draw a graph on paper to find out their relationship   
+ 
+[video](https://youtu.be/AMZe1YH14jo)    
+```javascript
+  var svg = d3.select('body').append('svg')
+    .attr('class', 'chart')
+    .attr('width', 960)
+    .attr('height', 500);
+      
+  var margin = {top: 20, bottom:20, left:30, right:30}, 
+      height_big = (500 - 4*margin.top)/6*4, 
+      height_small = (500 - 4*margin.top)/6,
+  		width = 960 - margin.left*2;
+```
+[Back](#stock-price-volume-brush-tooltip)    
+
 
 #### asc-src
 => script.js has updated to version 4
