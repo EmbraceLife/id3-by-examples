@@ -375,7 +375,7 @@ by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)
 - Click on the error link to see the problematic code     
 
 [video](https://youtu.be/GhlrzcDc014)      
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 ### tickSize    
 => use of axis.tickSize  
@@ -394,7 +394,7 @@ focus.append('g')
 - `.tickSize()` = `.tickSizeInner()` + `.tickSizeOuter()`   
 - they all have just one argument   
 [video: their effects](https://youtu.be/TKkruCsOKkw)    
-
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### margins
@@ -444,7 +444,7 @@ var range = legend.append('text')
   .attr('transform', 'translate(' + width + ', 0)');
 ```
 [video](https://youtu.be/Zz86atOrWx0)    
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### bisector left    
@@ -470,7 +470,7 @@ console.log(i)
 ```
 [video](https://youtu.be/KyPG3H36mws)
 
-[Back](#toc)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 
