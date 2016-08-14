@@ -11,22 +11,22 @@
 ### stock price volume brush tooltip      
 
 [`ticks()` calc num of tick lines smartly rather than taking number constant](#ticks-smart)    
-[no clip-path transform-translate and width-height as big as possible](#clip-path-no-translate)
+[no clip-path transform-translate and width-height as big as possible](#clip-path-no-translate)    
 [How to make margin-height-width cleaner?](#margin-clean)    
 [source v4](#asc-src)    
 [update to version4](#update-to-4)    
 [How to use axis.tickSize](#ticksize)    
 [How to clean margins, width, height for 3 panels](#margins)    
-[How to convert date to string](#date-to-string)
-[How to contrain index](#bisector-left)    
-[Index left out by constraint](#left-out) 
-[How to mouse around tooltip display](#mouse-tooltip)
+[How to convert date to string](#date-to-string)    
+[How to contrain index](#bisector-left)     
+[Index left out by constraint](#left-out)     
+[How to mouse around tooltip display](#mouse-tooltip)     
 [How to choose display options](#css-display)    
-[How to brush to update](#brush-update)
-[How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)
-[How to update the gray selection box](#update-selection-box)
-[The key of code for updating](#key-code-update)
-[How to understand multi-file such as css script etc, exampe](#script-css)    
+[How to brush to update](#brush-update)     
+[How to update by click a date-range-Name, like 3m or 1y](#click-rangeName)     
+[How to update the gray selection box](#update-selection-box)     
+[The key of code for updating](#key-code-update)       
+[How to understand multi-file such as css script etc, exampe](#script-css)     
 
 
 
