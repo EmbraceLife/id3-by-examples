@@ -10,6 +10,7 @@
 
 ### stock price volume brush tooltip      
 
+[`ticks()` calc num of tick lines smartly rather than taking number constant](#ticks-smart)    
 [no clip-path transform-translate and width-height as big as possible](#clip-path-no-translate)
 [How to make margin-height-width cleaner?](#margin-clean)    
 [source v4](#asc-src)    
@@ -44,6 +45,16 @@
 by [arnauddri/d3-stock](https://github.com/arnauddri/d3-stock)  
 
 
+### g height width    
+=> g can have not only transform-translate and also width and height attributes    
+[video](https://youtu.be/hAwRSsViW14)     
+[Back](#stock-price-volume-brush-tooltip)    
+
+
+### ticks smart    
+=> calc tick number of lines smartly rather than taking num for sure or constant    
+[video](https://youtu.be/NZhmoebRU9I)    
+[Back](#stock-price-volume-brush-tooltip)    
 
 
 ### clip path no translate    
