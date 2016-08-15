@@ -8,10 +8,34 @@
 
 ## dc.js examples 
 
+
+### flight-crossfilter example    
+
+** Step 1 ==> elements structures **    
+** Step 2 ==> investigate variables in console **
+
+
+
+
 ### Nasdaq 100 index example   
 
 ** Step 1 ==> elements structures **    
 [Get to know the basic elements layouts](#elements-layouts)    
+
+** Step 2 ==> investigate variables in console **     
+[Get to know variables by log them in console](#variable-investigate)     
+
+### variable investigate    
+=> Get to know variables by log them in console    
+[video: data loaded and processed](https://youtu.be/kUya1Xk_4tw)    
+[video: crossfilter() and groupAll()](https://youtu.be/BC1jtPBQZWk)    
+[video: crossfilter and groupAll API](https://youtu.be/fLKRsHRxFWU)         
+
+
+
+
+
+
 
 ### elements layouts    
 => How to get to know all the visual and non-visual elements (the skeleton)?    
@@ -20,7 +44,9 @@
 [video: all of them are on immediate level of child from div .container](https://youtu.be/gbw8y21w4fM)    
 [video: div rows contains texts, div graphs, reset hidden](https://youtu.be/qwMW-M5cCNA)       
 [video: div rows inside -> more text, svg, div](https://youtu.be/pvSZ69Qt2tY)    
-[video: div rows inside -> tick lines horizontal and vertical, circle with texts, x-y-axis and labels](https://youtu.be/Hauy4Vf2A9A)
+[video: div rows inside -> tick lines horizontal and vertical, circle with texts, x-y-axis and labels](https://youtu.be/Hauy4Vf2A9A)    
+[video: reset and range selected](https://youtu.be/VbVj3qYpuKY)      
+[video: line and area chart](https://youtu.be/iXefhFxHwK0)
 
 
 
