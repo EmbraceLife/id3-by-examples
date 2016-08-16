@@ -30,7 +30,8 @@
 [video: data loaded and processed](https://youtu.be/kUya1Xk_4tw)    
 [video: crossfilter() and groupAll()](https://youtu.be/BC1jtPBQZWk)    
 [video: crossfilter and groupAll API](https://youtu.be/fLKRsHRxFWU)         
-
+[video: understanding dimension,group,reduce,order,all,top](https://youtu.be/fGd9RYgLxOw)     
+[video: all vs top, order vs orderNatural](https://youtu.be/uTAi5F6kphU)     
 
 
 
