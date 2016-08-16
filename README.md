@@ -36,7 +36,7 @@
 [video: dimension.group.reduceSum.all-top](https://youtu.be/FVTsm4p9hzU)      
 [video: any columns can be used by dimension.group.reduceSum](https://youtu.be/8nq4ZKtzfnk)    
 [video: p.columnName and v.columnName for reduce() and order-custom-func](https://youtu.be/HIa-tX7wpi0)    
-[video: dimension on category, return category and their counts](uplohttps://youtu.be/ptx3b4Ort7Qading)    
+[video: dimension on category, return category and their counts](https://youtu.be/ptx3b4Ort7Qading)    
 [video: histogram-dimension-percentageChange-key=>unique percentage, change-value=>count](https://youtu.be/1lAc8MyyYgA)  
 [video: quarter name and count, sum of volume for all Q1 to Q4](https://youtu.be/pHgQu1DlPsw)     
 [video: weekday, numberName, stringName, count](https://youtu.be/PR0rQZv_74U)    
