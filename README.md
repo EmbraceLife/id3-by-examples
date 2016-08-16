@@ -35,6 +35,8 @@
 [video: dimension.group().all() to access content](https://youtu.be/eppiaFcWiKA)      
 [video: dimension.group.reduceSum.all-top](https://youtu.be/FVTsm4p9hzU)      
 [video: any columns can be used by dimension.group.reduceSum](https://youtu.be/8nq4ZKtzfnk)    
+[video: p.columnName and v.columnName for reduce() and order-custom-func](https://youtu.be/HIa-tX7wpi0)    
+[video: dimension on category, return category and their counts](uplohttps://youtu.be/ptx3b4Ort7Qading)    
 
 
 
