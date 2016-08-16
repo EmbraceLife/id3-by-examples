@@ -40,7 +40,8 @@
 [video: histogram-dimension-percentageChange-key=>unique percentage, change-value=>count](https://youtu.be/1lAc8MyyYgA)     
 [video: quarter name and count, sum of volume for all Q1 to Q4](https://youtu.be/pHgQu1DlPsw)     
 [video: weekday, numberName, stringName, count](https://youtu.be/PR0rQZv_74U)    
-[video: bubbleChart, colorDomain() not sure](uploading)
+[video: bubbleChart, colorDomain() not sure](https://youtu.be/7OQuRl5Uc2o)     
+[video: bubblechart, set domain-range for x,y,r, trial-error for best range](https://youtu.be/hur1-F6aVps)    
 
 
 
