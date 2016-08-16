@@ -32,6 +32,9 @@
 [video: crossfilter and groupAll API](https://youtu.be/fLKRsHRxFWU)         
 [video: understanding dimension,group,reduce,order,all,top](https://youtu.be/fGd9RYgLxOw)     
 [video: all vs top, order vs orderNatural](https://youtu.be/uTAi5F6kphU)     
+[video: dimension.group().all() to access content](https://youtu.be/eppiaFcWiKA)      
+[video: dimension.group.reduceSum.all-top](https://youtu.be/FVTsm4p9hzU)      
+[video: any columns can be used by dimension.group.reduceSum](https://youtu.be/8nq4ZKtzfnk)    
 
 
 
