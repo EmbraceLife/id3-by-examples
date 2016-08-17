@@ -26,6 +26,28 @@
 [How to build html page's framework?](#html-framework)    
 [How to make logo float?](#logo-float)    
 [How to link and update the version of a library in text?](#link-update-version)   
+[How to build div, p, a, link...?](#build-elements)    
+[How to build a row chart framework: include chart and text and reset button?](#row-chart-reset)    
+[How to link different visual elements together to sync?](#id-class-sync)    
+
+
+
+### id class sync    
+=> How to link different visual elements together to sync?    
+- group class name does not work I think     
+[video](uploading)    
+[Back](#elements-layouts)    
+
+
+### row chart reset   
+=> How to build a row chart framework: include chart and text and reset button?
+[video](https://youtu.be/nLZpxHi7s-0)    
+[Back](#elements-layouts)    
+
+### build elements   
+=> How to build div, p, a, link...?    
+[video](https://youtu.be/n9uKDZ23RVM)    
+[Back](#elements-layouts)    
 
 
 
