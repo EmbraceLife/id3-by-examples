@@ -42,6 +42,12 @@
 [video: weekday, numberName, stringName, count](https://youtu.be/PR0rQZv_74U)    
 [video: bubbleChart, colorDomain() not sure](https://youtu.be/7OQuRl5Uc2o)     
 [video: bubblechart, set domain-range for x,y,r, trial-error for best range](https://youtu.be/hur1-F6aVps)    
+[video: pieChart, all.value() vs d.value vs d.key](https://youtu.be/FZP9zRteTH0)     
+[video: pieChart, difficult to work with colors](https://youtu.be/n0e9Nz06mBU)     
+[video: donutChart, d3.sum, with and without label, all.value](https://youtu.be/mSqzHlYO9Us)     
+[video: rowChart, label, title, ordinalColors, xAxis.ticks](https://youtu.be/mkcqDl9beeg)     
+[video: fluctuationChart, filterPrinter, filter[0], xAxis.tickformat](https://youtu.be/94hD__G0C2I)        
+[video: volume-barChart, brush?](https://youtu.be/Xm7eQUdbdj0)       
 
 
 
