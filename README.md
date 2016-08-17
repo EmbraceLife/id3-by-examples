@@ -35,7 +35,7 @@
 ### id class sync    
 => How to link different visual elements together to sync?    
 - group class name does not work I think     
-[video](uploading)    
+[video](https://youtu.be/3hS6PMZNu1M)    
 [Back](#elements-layouts)    
 
 
