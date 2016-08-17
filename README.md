@@ -21,6 +21,24 @@
 
 ### elements layouts    
 => How to get to know all the visual and non-visual elements (the skeleton)?    
+
+[Where to put external css files?](#external-css)    
+[How to build html page's framework?](#html-framework)    
+
+### html framework    
+=> How to build html page's skeleton or framework?    
+[video](recording)    
+[Back](#elements-layouts)    
+
+### external css 
+=> where to put external css files?     
+- in the head section     
+- bootstrap and your own css     
+
+[video](https://youtu.be/Ci34K0Y0yl4)    
+[Back](#elements-layouts)    
+
+
 [video: container, image, h2, p](https://youtu.be/VD-J9gl9czQ)     
 [video: more h2-4, p, unordered list, and a-links](https://youtu.be/3CdXcyrllGo)    
 [video: all of them are on immediate level of child from div .container](https://youtu.be/gbw8y21w4fM)    
