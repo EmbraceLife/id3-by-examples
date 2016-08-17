@@ -9,13 +9,6 @@
 ## dc.js examples 
 
 
-### flight-crossfilter example    
-
-** Step 1 ==> elements structures **    
-** Step 2 ==> investigate variables in console **
-
-
-
 
 ### Nasdaq 100 index example   
 
@@ -24,6 +17,20 @@
 
 ** Step 2 ==> investigate variables in console **     
 [Get to know variables by log them in console](#variable-investigate)     
+
+
+### elements layouts    
+=> How to get to know all the visual and non-visual elements (the skeleton)?    
+[video: container, image, h2, p](https://youtu.be/VD-J9gl9czQ)     
+[video: more h2-4, p, unordered list, and a-links](https://youtu.be/3CdXcyrllGo)    
+[video: all of them are on immediate level of child from div .container](https://youtu.be/gbw8y21w4fM)    
+[video: div rows contains texts, div graphs, reset hidden](https://youtu.be/qwMW-M5cCNA)       
+[video: div rows inside -> more text, svg, div](https://youtu.be/pvSZ69Qt2tY)    
+[video: div rows inside -> tick lines horizontal and vertical, circle with texts, x-y-axis and labels](https://youtu.be/Hauy4Vf2A9A)    
+[video: reset and range selected](https://youtu.be/VbVj3qYpuKY)      
+[video: line and area chart](https://youtu.be/iXefhFxHwK0)
+
+
 
 ### variable investigate    
 => Get to know variables by log them in console    
@@ -58,16 +65,6 @@
 
 
 
-### elements layouts    
-=> How to get to know all the visual and non-visual elements (the skeleton)?    
-[video: container, image, h2, p](https://youtu.be/VD-J9gl9czQ)     
-[video: more h2-4, p, unordered list, and a-links](https://youtu.be/3CdXcyrllGo)    
-[video: all of them are on immediate level of child from div .container](https://youtu.be/gbw8y21w4fM)    
-[video: div rows contains texts, div graphs, reset hidden](https://youtu.be/qwMW-M5cCNA)       
-[video: div rows inside -> more text, svg, div](https://youtu.be/pvSZ69Qt2tY)    
-[video: div rows inside -> tick lines horizontal and vertical, circle with texts, x-y-axis and labels](https://youtu.be/Hauy4Vf2A9A)    
-[video: reset and range selected](https://youtu.be/VbVj3qYpuKY)      
-[video: line and area chart](https://youtu.be/iXefhFxHwK0)
 
 
 
