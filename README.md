@@ -48,6 +48,9 @@
 [video: rowChart, label, title, ordinalColors, xAxis.ticks](https://youtu.be/mkcqDl9beeg)     
 [video: fluctuationChart, filterPrinter, filter[0], xAxis.tickformat](https://youtu.be/94hD__G0C2I)        
 [video: volume-barChart, brush?](https://youtu.be/Xm7eQUdbdj0)       
+[video: move-chart, all functions explained](https://youtu.be/XWIRAXaF4zc)         
+[video: moveChart, .elasticX(false) is not working here](https://youtu.be/f8q-jeKlo6U)     
+[video: rangeChart, round() and xUnits()](https://youtu.be/v56ffRvKIzs)     
 
 
 
