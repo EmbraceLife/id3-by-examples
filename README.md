@@ -24,10 +24,22 @@
 
 [Where to put external css files?](#external-css)    
 [How to build html page's framework?](#html-framework)    
+[How to make logo float?](#logo-float)    
+[How to link and update the version of a library in text?](#link-update-version)   
+
+### link update version
+=> How to link and update the version of a library in text?    
+[video](uploading)    
+[Back](#elements-layouts)    
+
+### log float   
+=> How to make logo float?    
+[video](https://youtu.be/aMozDJrWSeg)    
+[Back](#elements-layouts)    
 
 ### html framework    
 => How to build html page's skeleton or framework?    
-[video](recording)    
+[video](https://youtu.be/0Ke1XBnmGBM)    
 [Back](#elements-layouts)    
 
 ### external css 
@@ -37,6 +49,8 @@
 
 [video](https://youtu.be/Ci34K0Y0yl4)    
 [Back](#elements-layouts)    
+
+
 
 
 [video: container, image, h2, p](https://youtu.be/VD-J9gl9czQ)     
