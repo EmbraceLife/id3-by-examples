@@ -51,7 +51,9 @@
 [video: move-chart, all functions explained](https://youtu.be/XWIRAXaF4zc)         
 [video: moveChart, .elasticX(false) is not working here](https://youtu.be/f8q-jeKlo6U)     
 [video: rangeChart, round() and xUnits()](https://youtu.be/v56ffRvKIzs)     
-
+[video: dc.dataCount, must use all ndx and all, filter-count and total-count are auto-created](https://youtu.be/nGv04vNNbN8)    
+[video: dc.dataCount, html() include filter-count, total-count, reset button](https://youtu.be/Z6xfjsyw_fg)    
+[video: dc.dataTable, use dataset, select columns, create a new column, sortby, order, on-renderlet](https://youtu.be/Bzfakf4aQ5w)     
 
 
 
