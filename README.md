@@ -40,7 +40,7 @@
 
 
 ### row chart reset   
-=> How to build a row chart framework: include chart and text and reset button?
+=> How to build a row chart framework: include chart and text and reset button?    
 [video](https://youtu.be/nLZpxHi7s-0)    
 [Back](#elements-layouts)    
 
