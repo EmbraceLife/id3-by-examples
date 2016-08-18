@@ -31,17 +31,22 @@
 [How to link different visual elements together to sync?](#id-class-sync)    
 [How to create and display filter range on graph?](#filter-range)    
 [How to reset filters and redraw all graphs?](#filterAll-redrawAll)    
+[display:none is better than visibility:hidden](#display-vs-visibility)    
+
+### display vs visibility    
+=> display:none is better than visibility:hidden    
+[video](https://youtu.be/8LDOc0SqzA0)   
 
 ### filterAll redrawAll    
 => How to reset filters and redraw all graphs?    
 - `moveChart.filterAll();volumeChart.filterAll();` => clear out certain graphs' filters    
 - `dc.filterAll()` => clear out all graphs' filters
-[video](recorded)    
+[video](https://youtu.be/AjDucU5Tk_U)    
 
 
 ### filter range    
 => How to create and display filter range on graph?    
-[video](uploading, it takes too long to upload, do it at night)  
+[video](https://youtu.be/rRKWRkbOcdY)    
 
 
 ### id class sync    
