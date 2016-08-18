@@ -29,7 +29,19 @@
 [How to build div, p, a, link...?](#build-elements)    
 [How to build a row chart framework: include chart and text and reset button?](#row-chart-reset)    
 [How to link different visual elements together to sync?](#id-class-sync)    
+[How to create and display filter range on graph?](#filter-range)    
+[How to reset filters and redraw all graphs?](#filterAll-redrawAll)    
 
+### filterAll redrawAll    
+=> How to reset filters and redraw all graphs?    
+- `moveChart.filterAll();volumeChart.filterAll();` => clear out certain graphs' filters    
+- `dc.filterAll()` => clear out all graphs' filters
+[video](recorded)    
+
+
+### filter range    
+=> How to create and display filter range on graph?    
+[video](uploading, it takes too long to upload, do it at night)  
 
 
 ### id class sync    
