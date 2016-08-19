@@ -47,6 +47,17 @@
 [How to use group.size()?](#group-size)    
 [group().all() == group().reduceCount().all()](#reduceCount)     
 [How to understand group.reduceSum()?](#reduceSum)     
+[How to understand group.reduce.order?](#reduce-order)    
+
+
+### reduce order    
+=> How to understand group.reduce.order?    
+[video](https://youtu.be/UeYeYVS_LVg) 
+[demo](http://blockbuilder.org/EmbraceLife/483c501b7e9c20d716dbcad0ad5ee1c4)    
+[Back](#variable-investigate)    
+
+
+
 
 ### reduceSum    
 => How to understand group.reduceSum()?    
