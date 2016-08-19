@@ -2,15 +2,12 @@
 **Lessons learnt**    
 1. the better I understand previous work, the more confident I am to tackle new problems    
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place    
-3. notes and videos as specific and short as possible     
+3. notes and videos should no longer than 2minutes    
 
 # **Table of Conent**     
 
-## dc.js examples 
 
-
-
-### Nasdaq 100 index example   
+## Nasdaq 100 index example   
 
 ** Step 1 ==> elements structures **    
 [Get to know the basic elements layouts](#elements-layouts)    
@@ -33,21 +30,84 @@
 [How to reset filters and redraw all graphs?](#filterAll-redrawAll)    
 [display:none is better than visibility:hidden](#display-vs-visibility)    
 
+
+
+
+### variable investigate    
+[What does crossfilter() do?](#crossfilter)    
+[What does crossfilter.size(), .add(), .remove() do?](#size-add-remove)     
+[What does crossfilter.groupAll(), .dimension(value) do?](#groupAll-dimension)    
+[What can .dimension.funcs do?](#dimension-funcs)    
+[use of .all, .top, .bottom, .dispose, under dimension, group and groupAll](#all-top-bottom-dispose-infinity)    
+[How group and groupAll differ on funcs?](#group-groupAll-func)    
+
+### group groupAll func
+=> How group and groupAll differ on funcs?    
+- group: group rows share the same dimension on total   
+- groupAll: does not group by dimension at all  
+[video](https://youtu.be/O81W0J7A_M0)    
+[Back](#variable-investigate)    
+
+
+
+### all top bottom dispose infinity
+- .all work only in group, not in dimension 
+- top and bottom work fine for dimension and group 
+- .dispose is to restore space for more and new dimension   
+- top(Infinity) act as .all here 
+[video](https://youtu.be/kKMp-m9__-4)    
+[Back](#variable-investigate)    
+
+
+### dimension funcs
+- .dimension.filter
+- .dimension.filterExact
+- .dimension.filterRange
+[video](https://youtu.be/v_zyWjIbaj4)    
+[Back](#variable-investigate)    
+
+
+### groupAll dimension   
+=> What does crossfilter.groupAll(), .dimension(value) do?    
+- both return an object with many funcs inside 
+[video](https://youtu.be/N2miP4qQtCA)    
+[Back](#variable-investigate)    
+
+
+
+### size add remove    
+=> What does crossfilter.size(), .add(), .remove() do?    
+- size: num of rows 
+- add: add more rows of dataset   
+- remove: remove all dataset 
+[video](https://youtu.be/KibPaHc0Bjs)    
+[Back](#variable-investigate)    
+
+
+### crossfilter    
+=> What does crossfilter() do?    
+- take in dataset 
+- create an object containing 5 functions 
+[video](https://youtu.be/yy0js3PDyPM)    
+[Back](#variable-investigate)    
+
+
 ### display vs visibility    
 => display:none is better than visibility:hidden    
 [video](https://youtu.be/8LDOc0SqzA0)   
+[Back](#elements-layouts)    
 
 ### filterAll redrawAll    
 => How to reset filters and redraw all graphs?    
 - `moveChart.filterAll();volumeChart.filterAll();` => clear out certain graphs' filters    
 - `dc.filterAll()` => clear out all graphs' filters
 [video](https://youtu.be/AjDucU5Tk_U)    
-
+[Back](#elements-layouts)    
 
 ### filter range    
 => How to create and display filter range on graph?    
 [video](https://youtu.be/rRKWRkbOcdY)    
-
+[Back](#elements-layouts)    
 
 ### id class sync    
 => How to link different visual elements together to sync?    
