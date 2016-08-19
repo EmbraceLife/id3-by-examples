@@ -1,6 +1,7 @@
 # id3-by-examples
 **Lessons learnt**    
-1. the better I understand previous work, the more confident I am to tackle new problems    
+1. start with small examples, understand all of the small examples online well first
+2. the small examples online should cover most of problems I will ever encounter   
 2. If there is no need to read or watch my work again and again, then I should not make them in the first place    
 3. notes and videos should no longer than 2minutes    
 
