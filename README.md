@@ -40,6 +40,63 @@
 [What can .dimension.funcs do?](#dimension-funcs)    
 [use of .all, .top, .bottom, .dispose, under dimension, group and groupAll](#all-top-bottom-dispose-infinity)    
 [How group and groupAll differ on funcs?](#group-groupAll-func)    
+[How to understand dimension.top(Infinity) vs dimension.group().all() vs dimension.group.reduceSum().all()](#dimension-group-reduceSum)    
+[How to filter after dimension?](#dimension-filter)    
+[meaning of accessor and dispose?](#accessor-dispose)    
+[dimension.group() vs dimension.group(function(d){return Math.floor(d/100);})](#dimension-group-groupValue)      
+[How to use group.size()?](#group-size)    
+[group().all() == group().reduceCount().all()](#reduceCount)     
+[How to understand group.reduceSum()?](#reduceSum)     
+
+### reduceSum    
+=> How to understand group.reduceSum()?    
+[video](https://youtu.be/g4AK5zdLggQ)    
+[demo](http://blockbuilder.org/EmbraceLife/fe86959fa663f498cdc0aac9d9e02704)    
+[Back](#variable-investigate)    
+
+
+### reduceCount   
+=> group().all() == group().reduceCount().all()    
+[video](https://youtu.be/VGhUnr_69eg)    
+[Back](#variable-investigate)    
+
+
+### group size    
+=> How to use group.size()?     
+[video](https://youtu.be/9l3OspnQglc)    
+[Back](#variable-investigate)    
+
+
+
+### dimension group groupValue    
+=> dimension.group() vs dimension.group(function(d){return Math.floor(d/100);})    
+[video](https://youtu.be/gbTB5vdKTPQ)    
+[demo](http://blockbuilder.org/EmbraceLife/fe86959fa663f498cdc0aac9d9e02704)    
+[Back](#variable-investigate)    
+
+
+### accessor dispose      
+=> How to understand accessor function and dispose function ?
+[video](https://youtu.be/39HfFwwyqpk)    
+[webpage](https://github.com/crossfilter/crossfilter/wiki/API-Reference#dimension_accessor)    
+[Back](#variable-investigate)    
+
+
+
+### dimension filter    
+=> How to filter after dimension?    
+[video](https://youtu.be/4Rx6PbP45X8)    
+[demo](http://blockbuilder.org/EmbraceLife/fe86959fa663f498cdc0aac9d9e02704)    
+[Back](#variable-investigate)    
+
+### dimension group reduceSum    
+=> How to understand dimension.top(Infinity) vs dimension.group().all() vs dimension.group.reduceSum().all()    
+- dimension.top(Infinity): descending order by the dimension column, 12 rows of data    
+- dimension.group().all(): group each unique value of dimension column, 5 rows of data, or 5 groups of data     
+- dimension.group().reduceSum(...quantity): upon each group, sum up each group's quantity, still 5 rows, or 5 groups     
+[video](https://youtu.be/MAl0d_ta_nw)    
+[demo](http://blockbuilder.org/EmbraceLife/fe86959fa663f498cdc0aac9d9e02704)    
+[Back](#variable-investigate)    
 
 ### group groupAll func
 => How group and groupAll differ on funcs?    
